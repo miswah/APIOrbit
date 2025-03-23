@@ -44,8 +44,8 @@ public class ProjectServiceImp implements ProjectService {
     }
 
     @Override
-    public ProjectResponseDto createProject(ProjectRequestDto ProjectRequestDto) {
-        ProjectModel projectModel = convertToEntity(ProjectRequestDto);
+    public ProjectResponseDto createProject(ProjectRequestDto ProjectRequestDto, String email) {
+        ProjectModel projectModel = convertToEntity(ProjectRequestDto, email);
         ProjectModel savedProject = projectRepository.save(projectModel);
         return convertToResponseDto(savedProject);
     }
@@ -73,12 +73,12 @@ public class ProjectServiceImp implements ProjectService {
         projectRepository.delete(project.get());
     }
 
-    private ProjectModel convertToEntity(ProjectRequestDto ProjectRequestDto) {
+    private ProjectModel convertToEntity(ProjectRequestDto ProjectRequestDto, String email) {
         ProjectModel project = new ProjectModel();
         project.setName(ProjectRequestDto.getName());
         project.setDescription(ProjectRequestDto.getDescription());
-        project.setUser_id(userRepository.findByEmail(ProjectRequestDto.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found with email " + ProjectRequestDto.getEmail())));
+        project.setUser_id(userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found with email " + email)));
         return project;
     }
 

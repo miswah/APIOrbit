@@ -38,8 +38,7 @@ public class ProjectController {
 
     @PostMapping
     public ResponseEntity<ProjectResponseDto> createProject(@Valid @RequestBody ProjectRequestDto projectDTO, Principal principal) {
-        projectDTO.setEmail(principal.getName());
-        ProjectResponseDto createdProject = projectService.createProject(projectDTO);
+        ProjectResponseDto createdProject = projectService.createProject(projectDTO, principal.getName());
         return new ResponseEntity<>(createdProject, HttpStatus.CREATED);
     }
 
