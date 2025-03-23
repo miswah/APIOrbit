@@ -3,6 +3,7 @@ package com.miswah.apiorbit.security;
 import com.miswah.apiorbit.enums.Roles;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -33,6 +34,12 @@ public class SecurityConfig {
         this.userDetailsService = userDetailsService;
     }
 
+//    boolean isAdmin = authentication.getAuthorities().stream()
+//            .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+//    boolean isManager = authentication.getAuthorities().stream()
+//            .anyMatch(a -> a.getAuthority().equals("ROLE_MANAGER"));
+
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -42,6 +49,13 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/**").hasRole(String.valueOf(Roles.ADMIN))
                         .requestMatchers("/api/editor/**").hasAnyRole(String.valueOf(Roles.EDITOR),String.valueOf(Roles.ADMIN))
                         .requestMatchers("/api/viewer/**").hasAnyRole(String.valueOf(Roles.VIEWER),String.valueOf(Roles.ADMIN),String.valueOf(Roles.EDITOR))
+
+                        .requestMatchers("/api/products/**").hasAnyRole("USER", "MANAGER", "ADMIN")
+//                        .requestMatchers(HttpMethod.GET, "/api/products/**").hasAnyRole("USER", "MANAGER", "ADMIN")
+//                        .requestMatchers(HttpMethod.POST, "/api/products/**").hasAnyRole("MANAGER", "ADMIN")
+//                        .requestMatchers(HttpMethod.PUT, "/api/products/**").hasAnyRole("MANAGER", "ADMIN")
+//                        .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
+
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
