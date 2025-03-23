@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 public class ProjectModel {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "name")
@@ -15,6 +16,7 @@ public class ProjectModel {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "owner_id")
-    private int user_id;
+    @ManyToOne
+    @JoinColumn(name = "owner_id", nullable = false)
+    private UserModel user_id;
 }

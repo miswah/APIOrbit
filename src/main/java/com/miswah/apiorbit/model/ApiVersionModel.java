@@ -1,23 +1,22 @@
 package com.miswah.apiorbit.model;
 
 import com.miswah.apiorbit.enums.ApiStatus;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "api_version")
 public class ApiVersionModel {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "version")
     private float version;
 
-    @Column(name = "api_definition_id")
-    private int apiDefinitionId;
+    @OneToOne
+    @JoinColumn(name = "api_definition_id", nullable = false)
+    private ApiDefinitionModel apiDefinitionId;
 
     @Column(name = "status")
     private ApiStatus status;

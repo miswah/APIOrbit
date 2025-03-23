@@ -1,16 +1,14 @@
 package com.miswah.apiorbit.model;
 
 import com.miswah.apiorbit.enums.HttpMethods;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "api_definition")
 public class ApiDefinitionModel {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "url_path")
@@ -22,12 +20,16 @@ public class ApiDefinitionModel {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "auth_type_id")
-    private int authTypeId;
+    @OneToOne
+    @JoinColumn(name = "auth_type_id", nullable = false)
+    private AuthTypeModel authTypeId;
 
-    @Column(name = "project_id")
-    private int projectId;
+    @ManyToOne
+    @JoinColumn(name = "project_id", nullable = false)
+    private ProjectModel projectId;
 
-    @Column(name = "created_by")
-    private int createdBy;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserModel createdBy;
+
 }

@@ -1,10 +1,7 @@
 package com.miswah.apiorbit.model;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 
 @Entity
@@ -12,14 +9,17 @@ import jakarta.persistence.Table;
 public class MockApiModel {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "api_version_id")
-    private int apiVersionId;
+    @OneToOne
+    @JoinColumn(name = "api_version_id", nullable = false)
+    private ApiVersionModel apiVersionId;
 
     @Column(name = "mock_response")
     private String mockResponse;
 
-    @Column(name = "created_by")
-    private int createdBy;
+    @ManyToOne
+    @JoinColumn(name = "created_by", nullable = false)
+    private UserModel createdBy;
 }

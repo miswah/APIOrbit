@@ -1,10 +1,7 @@
 package com.miswah.apiorbit.model;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.sql.Timestamp;
 
@@ -13,10 +10,12 @@ import java.sql.Timestamp;
 public class TestRequestModel {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "api_version_id")
-    private int apiVersionId;
+    @ManyToOne
+    @JoinColumn(name = "api_version_id", nullable = false)
+    private ApiVersionModel apiVersionId;
 
     @Column(name = "request_body")
     private String requestBody;
@@ -30,6 +29,7 @@ public class TestRequestModel {
     @Column(name = "timestamp")
     private Timestamp timestamp;
 
-    @Column(name = "request_by")
-    private int requestBy;
+    @ManyToOne
+    @JoinColumn(name = "request_by", nullable = false)
+    private UserModel requestBy;
 }

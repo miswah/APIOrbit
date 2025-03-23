@@ -1,20 +1,20 @@
 package com.miswah.apiorbit.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "api_definition_tag")
 public class ApiDefinitionTagModel {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "api_definition_id")
-    private int apiDefinitionId;
+    @ManyToOne
+    @JoinColumn(name = "api_definition_id", nullable = false)
+    private ApiDefinitionModel apiDefinitionId;
 
-    @Column(name = "tag_id")
-    private int tagId;
+    @ManyToOne
+    @JoinColumn(name = "tag_id", nullable = false)
+    private TagModel tagId;
 }
