@@ -73,17 +73,6 @@ public class ProjectServiceImp implements ProjectService {
         projectRepository.delete(project.get());
     }
 
-
-    private ProjectRequestDto convertToDTO(ProjectModel project) {
-        ProjectRequestDto ProjectRequestDto = new ProjectRequestDto();
-        ProjectRequestDto.setId(project.getId());
-        ProjectRequestDto.setName(project.getName());
-        ProjectRequestDto.setDescription(project.getDescription());
-        ProjectRequestDto.setOwnerId(project.getUser_id().getId());
-        ProjectRequestDto.setEmail(project.getUser_id().getEmail());
-        return ProjectRequestDto;
-    }
-
     private ProjectModel convertToEntity(ProjectRequestDto ProjectRequestDto) {
         ProjectModel project = new ProjectModel();
         project.setName(ProjectRequestDto.getName());
