@@ -4,8 +4,8 @@ import com.miswah.apiorbit.dto.request.ProjectRequestDto;
 import com.miswah.apiorbit.dto.response.ProjectResponseDto;
 import com.miswah.apiorbit.model.ProjectModel;
 import com.miswah.apiorbit.repository.ProjectRepository;
-import com.miswah.apiorbit.repository.UserRepository;
 import com.miswah.apiorbit.service.ProjectService;
+import com.miswah.apiorbit.service.UserLookUpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +18,12 @@ public class ProjectServiceImp implements ProjectService {
 
     private final ProjectRepository projectRepository;
 
-    private final UserRepository userRepository;
+    private final UserLookUpService userLookUpService;
 
     @Autowired
-    public ProjectServiceImp(ProjectRepository projectRepository, UserRepository userRepository){
+    public ProjectServiceImp(ProjectRepository projectRepository, UserLookUpService userLookUpService){
         this.projectRepository = projectRepository;
-        this.userRepository = userRepository;
+        this.userLookUpService = userLookUpService;
     }
 
 
@@ -77,8 +77,7 @@ public class ProjectServiceImp implements ProjectService {
         ProjectModel project = new ProjectModel();
         project.setName(ProjectRequestDto.getName());
         project.setDescription(ProjectRequestDto.getDescription());
-        project.setUser_id(userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found with email " + email)));
+        project.setUser_id(userLookUpService.getUserByEmail(email));
         return project;
     }
 
