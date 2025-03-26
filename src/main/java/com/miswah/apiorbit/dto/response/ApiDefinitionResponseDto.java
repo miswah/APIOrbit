@@ -1,5 +1,6 @@
 package com.miswah.apiorbit.dto.response;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,9 +8,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProjectResponseDto {
+public class ApiDefinitionResponseDto {
 
     private Long id;
-    private String name;
+
+    private String urlPath;
+
     private String description;
+
+    private Long projectId;
 }
