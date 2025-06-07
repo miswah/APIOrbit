@@ -1,5 +1,6 @@
 package com.miswah.apiorbit.security;
 
+import com.miswah.apiorbit.enums.HttpMethods;
 import com.miswah.apiorbit.enums.Roles;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -55,7 +56,8 @@ public class SecurityConfig {
 //                        .requestMatchers(HttpMethod.POST, "/api/products/**").hasAnyRole("MANAGER", "ADMIN")
 //                        .requestMatchers(HttpMethod.PUT, "/api/products/**").hasAnyRole("MANAGER", "ADMIN")
 //                        .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
-
+                                .requestMatchers("/api-docs/**").permitAll()
+                                .requestMatchers("/swagger-ui/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
