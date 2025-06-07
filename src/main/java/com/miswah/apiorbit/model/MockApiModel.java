@@ -24,13 +24,9 @@ public class MockApiModel {
     @Column(name = "http_method", nullable = false)
     private HttpMethods httpMethods;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)
     private ProjectModel project_id;
-
-    @OneToOne
-    @JoinColumn(name = "api_version_id", nullable = false)
-    private ApiVersionModel api_version_id;
 
     @Column(name="delay", nullable = true)
     private int delay;
