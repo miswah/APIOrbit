@@ -1,4 +1,4 @@
-package com.miswah.apiorbit.service.imp;
+package com.miswah.apiorbit.service.impl;
 
 import com.miswah.apiorbit.dto.request.ProjectRequestDto;
 import com.miswah.apiorbit.dto.response.ProjectResponseDto;

@@ -3,10 +3,12 @@ package com.miswah.apiorbit.model;
 
 import com.miswah.apiorbit.enums.HttpMethods;
 import jakarta.persistence.*;
+import lombok.Data;
 
 
 @Entity
 @Table(name = "mock_api")
+@Data
 public class MockApiModel {
 
     @Id
@@ -15,7 +17,11 @@ public class MockApiModel {
 
     @OneToOne
     @JoinColumn(name = "api_version_id", nullable = false)
-    private ApiVersionModel apiVersionId;
+    private ApiVersionModel apiVersionModel;
+
+    @OneToOne
+    @JoinColumn(name = "api_definition_id", nullable = false)
+    private ApiDefinitionModel apiDefinitionModel;
 
     @ManyToOne
     @JoinColumn(name = "created_by", nullable = false)
@@ -26,7 +32,7 @@ public class MockApiModel {
 
     @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)
-    private ProjectModel project_id;
+    private ProjectModel projectModel;
 
     @Column(name="delay", nullable = true)
     private int delay;

@@ -2,9 +2,11 @@ package com.miswah.apiorbit.model;
 
 import com.miswah.apiorbit.enums.ApiStatus;
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
 @Table(name = "api_version")
+@Data
 public class ApiVersionModel {
 
     @Id
@@ -16,7 +18,7 @@ public class ApiVersionModel {
 
     @OneToOne
     @JoinColumn(name = "api_definition_id", nullable = false)
-    private ApiDefinitionModel apiDefinitionId;
+    private ApiDefinitionModel apiDefinitionModel;
 
     @Column(name = "status")
     private ApiStatus status;

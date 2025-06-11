@@ -1,4 +1,4 @@
-package com.miswah.apiorbit.service.imp;
+package com.miswah.apiorbit.service.impl;
 
 import com.miswah.apiorbit.model.UserModel;
 import com.miswah.apiorbit.repository.UserRepository;
