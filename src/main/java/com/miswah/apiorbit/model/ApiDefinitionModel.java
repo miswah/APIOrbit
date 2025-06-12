@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "api_definition")
+@Table(name = "api_definition", uniqueConstraints = {@UniqueConstraint(columnNames={"url_path","http_method", "project_id"})})
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

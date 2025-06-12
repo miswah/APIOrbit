@@ -7,7 +7,7 @@ import lombok.Data;
 
 
 @Entity
-@Table(name = "mock_api")
+@Table(name = "mock_api", uniqueConstraints = {@UniqueConstraint(columnNames = {"api_definition_id", "http_method"})})
 @Data
 public class MockApiModel {
 
@@ -15,11 +15,11 @@ public class MockApiModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "api_version_id", nullable = false)
     private ApiVersionModel apiVersionModel;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "api_definition_id", nullable = false)
     private ApiDefinitionModel apiDefinitionModel;
 
