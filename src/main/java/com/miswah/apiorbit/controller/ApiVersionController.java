@@ -6,6 +6,7 @@ import com.miswah.apiorbit.service.ApiVersionService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,7 @@ public class ApiVersionController {
     }
 
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody ApiVersionRequestDto apiVersionRequestDto){
+    public ResponseEntity<String> create(@Validated @RequestBody ApiVersionRequestDto apiVersionRequestDto){
         String str = this.apiVersionService.create(apiVersionRequestDto);
         return ResponseEntity.ok(str);
     }
