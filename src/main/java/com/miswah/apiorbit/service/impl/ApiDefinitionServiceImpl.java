@@ -15,14 +15,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class ApiDefinitionServiceImp implements ApiDefinitionService {
+public class ApiDefinitionServiceImpl implements ApiDefinitionService {
 
     private final ApiDefinitionRepository apiDefinitionRepository;
     private final ProjectLookUpService projectLookUpService;
     private final UserLookUpService userLookUpService;
 
     @Autowired
-    public ApiDefinitionServiceImp(ApiDefinitionRepository apiDefinitionRepository, ProjectLookUpService projectLookUpService, UserLookUpService userLookUpService){
+    public ApiDefinitionServiceImpl(ApiDefinitionRepository apiDefinitionRepository, ProjectLookUpService projectLookUpService, UserLookUpService userLookUpService){
         this.apiDefinitionRepository = apiDefinitionRepository;
         this.projectLookUpService = projectLookUpService;
         this.userLookUpService = userLookUpService;

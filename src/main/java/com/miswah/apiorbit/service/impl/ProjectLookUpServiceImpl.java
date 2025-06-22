@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProjectLookUpServiceImp implements ProjectLookUpService {
+public class ProjectLookUpServiceImpl implements ProjectLookUpService {
 
     private final ProjectRepository projectRepository;
 
     @Autowired
-    public ProjectLookUpServiceImp(ProjectRepository projectRepository){
+    public ProjectLookUpServiceImpl(ProjectRepository projectRepository){
         this.projectRepository = projectRepository;
     }
 

@@ -12,7 +12,7 @@ import java.security.Principal;
 
 
 @Service
-public class MockApiAdminServiceImp implements MockApiAdminService {
+public class MockApiAdminServiceImpl implements MockApiAdminService {
     private final ProjectLookUpService projectLookUpService;
     private final UserLookUpService userLookUpService;
     private final ApiDefinitionLookUpService apiDefinitionLookUpService;
@@ -21,7 +21,7 @@ public class MockApiAdminServiceImp implements MockApiAdminService {
 
 
     @Autowired
-    public MockApiAdminServiceImp(ProjectLookUpService projectLookUpService, UserLookUpService userLookUpService, ApiDefinitionLookUpService apiDefinitionLookUpService, MockApiRepository mockApiRepository, ApiVersionLookUpService apiVersionLookUpService){
+    public MockApiAdminServiceImpl(ProjectLookUpService projectLookUpService, UserLookUpService userLookUpService, ApiDefinitionLookUpService apiDefinitionLookUpService, MockApiRepository mockApiRepository, ApiVersionLookUpService apiVersionLookUpService){
         this.projectLookUpService = projectLookUpService;
         this.userLookUpService = userLookUpService;
         this.apiDefinitionLookUpService = apiDefinitionLookUpService;

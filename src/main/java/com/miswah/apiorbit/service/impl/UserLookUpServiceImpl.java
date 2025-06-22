@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserLookUpServiceImp implements UserLookUpService {
+public class UserLookUpServiceImpl implements UserLookUpService {
     private final UserRepository userRepository;
 
     @Autowired
-    public UserLookUpServiceImp(UserRepository userRepository){
+    public UserLookUpServiceImpl(UserRepository userRepository){
         this.userRepository = userRepository;
     }
 

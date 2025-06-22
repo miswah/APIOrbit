@@ -14,14 +14,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class ProjectServiceImp implements ProjectService {
+public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;
 
     private final UserLookUpService userLookUpService;
 
     @Autowired
-    public ProjectServiceImp(ProjectRepository projectRepository, UserLookUpService userLookUpService){
+    public ProjectServiceImpl(ProjectRepository projectRepository, UserLookUpService userLookUpService){
         this.projectRepository = projectRepository;
         this.userLookUpService = userLookUpService;
     }
