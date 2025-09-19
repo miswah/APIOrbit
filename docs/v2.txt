@@ -1,0 +1,35 @@
+1. User Management & Security
+2. API Registry
+	- BASIC INFO :-- name, decription/usecase,tags,status,active-profile,version, Domain,Auther
+	- TECHNICAL DETAILS :---- base url, method+path+description, Request/Response Format, version, status
+	- Security & Access :---- Authentication Type, Rate Limits/ Throttling
+	- Resources :--- Documentation URL, Mokc API Link, Sample Code snippets for sdk usage example
+	- Medata :- created Date, last Updated Data, Usage Count(if mocked), approval status, S
+3. API Search & Discovery
+	search by name,tags,domain
+	filter active/deprecated, version
+	
+4. API MOcking
+	this will need modifications
+	
+5. Smart Duplicate Detection
+6. Dashboard & Analytics
+	* Developer Dashboard
+		- APIs created
+		- usage stats
+	* Admin Dashboard
+		- Total APIs, Active vs Deprecated
+		- Deplicate APIs detected
+		- Top-used APIs
+		
+7. API Lifecycle Management (Admin only)
+		Draft → Active → Deprecated → Archived.
+		
+8. Reports
+	* Admin Reports
+		- API usage by catergory
+		- Duplicate APIs flagged
+		- Version lifecycle summary
+	* User Reports
+		- APIs created by the user
+		- Mock API usage history
