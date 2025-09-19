@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Table(schema = "user", name = "user")
 @Data
-public class UserModel implements UserDetails {
+public class UserModel extends Auditable implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
