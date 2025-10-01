@@ -1,28 +1,41 @@
 package com.miswah.apiorbit.utils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.miswah.apiorbit.dto.utils.ActivityLogEntry;
 import com.miswah.apiorbit.model.ActivityLogModel;
+import com.miswah.apiorbit.model.UserModel;
 import com.miswah.apiorbit.service.ActivityLogService;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.MDC;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
+import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Aspect
 @Component
@@ -56,11 +69,14 @@ public class ActivityLogAspect {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.isAuthenticated()) {
+            UserModel user = (UserModel) auth.getPrincipal();
             entry.setUserId(auth.getName());
-            //TODO: add user Name
+            entry.setUserName(user.getName());
+            entry.setUserRole(user.getRole());
         } else {
             entry.setUserId("anonymousUser");
         }
+        entry.setTraceId( MDC.get("traceId"));
 
         // 2) get request info if present
         ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -73,6 +89,7 @@ public class ActivityLogAspect {
 
         entry.setModuleName(activityLog.module());
         entry.setActionName(activityLog.action());
+        entry.setExtra(activityLog.extra());
 
         // 3) capture method params (mask sensitive)
         if (activityLog.captureParams()) {
@@ -100,10 +117,15 @@ public class ActivityLogAspect {
                     }
                 }
                 // add the return value to context
-                context.setVariable("result", result);
+                Object spelRoot = result;
+                if (result instanceof ResponseEntity<?>) {
+                    spelRoot = ((ResponseEntity<?>) result).getBody();
+                }
+                context.setVariable("result", spelRoot);
 
                 try {
-                    Object targetId = parser.parseExpression(targetSpel).getValue(context);
+                    Expression expr = parser.parseExpression(targetSpel);
+                    Object targetId = expr.getValue(context);
                     entry.setTargetId(targetId != null ? targetId.toString() : null);
                 } catch (Exception e) {
                     log.warn("Failed to evaluate target SpEL: {}", targetSpel, e);
@@ -134,16 +156,6 @@ public class ActivityLogAspect {
         }
     }
 
-    private String safeSerializeArgs(Object[] args) {
-        try {
-            // mask sensitive by inspecting param names or types (e.g., HttpServletRequest, Principal)
-            // simplest: exclude HttpServletRequest/HttpServletResponse, and scrub fields named "password"
-            return objectMapper.writeValueAsString(args);
-        } catch (Exception e) {
-            return "[unserializable]";
-        }
-    }
-
     private ActivityLogModel mapToEntity(ActivityLogEntry entry){
         ActivityLogModel model = new ActivityLogModel();
         model.setUserId(entry.getUserId());
@@ -159,6 +171,54 @@ public class ActivityLogAspect {
         model.setParams(entry.getParams());
         model.setExtra(entry.getExtra());
         model.setCreatedBy(entry.getCreatedBy());
+        model.setUserName(entry.getUserName());
+        model.setUserRole(entry.getUserRole());
+        model.setTraceId(entry.getTraceId());
         return model;
     }
+    private String safeSerializeArgs(Object[] args) {
+        if (args == null || args.length == 0) return null;
+
+        List<Object> safeArgs = new ArrayList<>();
+
+        for (Object arg : args) {
+            if (arg == null) {
+                safeArgs.add(null);
+            } else if (arg instanceof HttpServletRequest
+                    || arg instanceof HttpServletResponse
+                    || arg instanceof MultipartFile
+                    || arg instanceof Principal
+                    || arg instanceof Authentication) {
+                // skip these types
+                continue;
+            } else if (isSimpleValue(arg)) {
+                // primitives, wrappers, String
+                safeArgs.add(arg);
+            } else {
+                // complex object: convert to Map, exclude "authorities" or other sensitive fields
+                try {
+                    ObjectNode node = new ObjectMapper().valueToTree(arg);
+                    node.remove(Arrays.asList("authorities", "password", "secret")); // exclude sensitive
+                    safeArgs.add(node);
+                } catch (Exception e) {
+                    safeArgs.add("[unserializable]");
+                }
+            }
+        }
+
+        try {
+            return new ObjectMapper().writeValueAsString(safeArgs);
+        } catch (JsonProcessingException e) {
+            return "[error serializing params]";
+        }
+    }
+
+    private boolean isSimpleValue(Object obj) {
+        return obj instanceof String
+                || obj instanceof Number
+                || obj instanceof Boolean
+                || obj instanceof Character
+                || obj.getClass().isPrimitive();
+    }
+
 }
