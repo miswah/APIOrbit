@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "api_dependency")
-public class ApiDependencyModel {
+public class ApiDependencyModel extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

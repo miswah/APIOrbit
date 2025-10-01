@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProjectModel {
+public class ProjectModel extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
