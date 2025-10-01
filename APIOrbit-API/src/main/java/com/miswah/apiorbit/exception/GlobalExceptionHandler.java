@@ -1,5 +1,6 @@
 package com.miswah.apiorbit.exception;
 
+import com.miswah.apiorbit.utils.CustomLogger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -66,6 +67,8 @@ public class GlobalExceptionHandler {
         response.put("status", HttpStatus.NOT_FOUND.value());
         response.put("message", "Resource Not Found");
         response.put("errors", ex.getMessage());
+
+        CustomLogger.logError(GlobalExceptionHandler.class, response.toString(), ex);
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 

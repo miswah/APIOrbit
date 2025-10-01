@@ -32,6 +32,7 @@ public class ActivityLogEntry {
     private String params;
     private String extra;
     private String createdBy;
+    private String traceId;
 
     // --- convenience methods ---
 

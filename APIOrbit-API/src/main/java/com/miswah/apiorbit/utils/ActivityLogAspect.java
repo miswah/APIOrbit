@@ -76,7 +76,7 @@ public class ActivityLogAspect {
         } else {
             entry.setUserId("anonymousUser");
         }
-        entry.setTargetId( MDC.get("traceId"));
+        entry.setTraceId( MDC.get("traceId"));
 
         // 2) get request info if present
         ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -173,6 +173,7 @@ public class ActivityLogAspect {
         model.setCreatedBy(entry.getCreatedBy());
         model.setUserName(entry.getUserName());
         model.setUserRole(entry.getUserRole());
+        model.setTraceId(entry.getTraceId());
         return model;
     }
     private String safeSerializeArgs(Object[] args) {

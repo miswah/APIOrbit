@@ -56,4 +56,6 @@ public class ActivityLogModel extends Auditable{
     @Column(name = "user_role")
     private Roles userRole;
 
+    @Column(name = "trace_id")
+    private String traceId;
 }
