@@ -3,6 +3,7 @@ package com.miswah.apiorbit.controller;
 import com.miswah.apiorbit.dto.request.ApiRequestDTO;
 import com.miswah.apiorbit.dto.response.ApiResponseDTO;
 import com.miswah.apiorbit.service.ApiService;
+import com.miswah.apiorbit.utils.ActivityLog;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import java.util.List;
 @RequestMapping("/api/base")
 public class ApiController {
 
-    private final ApiService apiService;
+    public final ApiService apiService;
 
     @Autowired
     public ApiController(ApiService apiService){
@@ -23,17 +24,20 @@ public class ApiController {
     }
 
     @GetMapping
+    @ActivityLog(action="GET_APPROVED_API", module="API", target="#result?.id")
     public ResponseEntity<List<ApiResponseDTO>> getAllApiDetails(){
         return ResponseEntity.ok(this.apiService.getApprovedApis());
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<ApiResponseDTO> getApiDetail(@PathVariable Long id){
+    @ActivityLog(action="GET_API_BY_ID", module="API", target="#id")
+    public ResponseEntity<ApiResponseDTO> getApiDetail(@PathVariable Long id){
         return ResponseEntity.ok(this.apiService.getApi(id));
     }
 
     @PutMapping("/approve/{id}")
-    private ResponseEntity<ApiResponseDTO> approveApi(@PathVariable Long id, Principal principal){
+    @ActivityLog(action="APPROVE_API", module="API", target="#result?.id")
+    public ResponseEntity<ApiResponseDTO> approveApi(@PathVariable Long id, Principal principal){
         return ResponseEntity.ok(this.apiService.approveApi(id, principal));
     }
 
@@ -43,7 +47,7 @@ public class ApiController {
     }
 
     @PutMapping("/{id}")
-    private ResponseEntity<ApiResponseDTO> updateApiDetails(@Valid @RequestBody ApiRequestDTO dto, @PathVariable Long id, Principal principal){
+    public ResponseEntity<ApiResponseDTO> updateApiDetails(@Valid @RequestBody ApiRequestDTO dto, @PathVariable Long id, Principal principal){
         return ResponseEntity.ok(this.apiService.updateApi(dto, id, principal));
     }
 }
