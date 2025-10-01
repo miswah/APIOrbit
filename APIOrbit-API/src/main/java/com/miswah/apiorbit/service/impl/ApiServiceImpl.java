@@ -1,25 +1,28 @@
 package com.miswah.apiorbit.service.impl;
 
 import com.miswah.apiorbit.dto.request.ApiRequestDTO;
-import com.miswah.apiorbit.dto.response.ApiDefinitionResponseDto;
 import com.miswah.apiorbit.dto.response.ApiResponseDTO;
 import com.miswah.apiorbit.enums.ApiStatus;
 import com.miswah.apiorbit.exception.ResourceNotFoundException;
-import com.miswah.apiorbit.model.ApiDefinitionModel;
 import com.miswah.apiorbit.model.ApiModel;
 import com.miswah.apiorbit.repository.ApiRepository;
 import com.miswah.apiorbit.service.ApiService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class ApiServiceImpl implements ApiService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ApiServiceImpl.class);
 
     private final ApiRepository apiRepository;
 
@@ -32,12 +35,14 @@ public class ApiServiceImpl implements ApiService {
     public ApiResponseDTO createApi(ApiRequestDTO dto) {
         ApiModel model = this.convertToModel(dto);
         this.apiRepository.save(model);
+        logger.info("New API created {}", model.toString());
         return this.convertToDto(model);
     }
 
     @Override
     public List<ApiResponseDTO> getApprovedApis() {
         List<ApiModel> models = this.apiRepository.findByStatus(ApiStatus.ACTIVE);
+        logger.info("Approved api fetched");
         return this.convertToDtoList(models);
     }
 
@@ -46,6 +51,7 @@ public class ApiServiceImpl implements ApiService {
         Optional<ApiModel> model = this.apiRepository.findById(id);
 
         if(model.isEmpty()){
+            logger.error("No api found for getApi() called");
             throw new ResourceNotFoundException("No Api found with that id");
         }
         return this.convertToDto(model.get());
