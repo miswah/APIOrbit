@@ -2,6 +2,7 @@ package com.miswah.apiorbit.dto.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.miswah.apiorbit.enums.Outcome;
+import com.miswah.apiorbit.enums.Roles;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +18,8 @@ public class ActivityLogEntry {
 
     private String userId;
     private String userName;
+    private Long userModelId;
+    private Roles userRole;
     private OffsetDateTime timestamp = OffsetDateTime.now();
     private String remoteAddr;
     private String httpMethod;

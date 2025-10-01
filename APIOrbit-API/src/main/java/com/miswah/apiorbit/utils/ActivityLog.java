@@ -10,10 +10,7 @@ import java.lang.annotation.Target;
 public @interface ActivityLog {
     String action() default "";
     String module() default "";
-    /**
-     * optional: an SpEL expression to extract "targetId" from method args or return value
-     * e.g. "#id" or "return?.id"
-     */
     String target() default "";
     boolean captureParams() default true;
+    String extra() default  "";
 }

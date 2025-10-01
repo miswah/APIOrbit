@@ -1,6 +1,6 @@
 package com.miswah.apiorbit.model;
 
-import com.miswah.apiorbit.enums.Outcome;
+import com.miswah.apiorbit.enums.Roles;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -52,5 +52,8 @@ public class ActivityLogModel extends Auditable{
 
     @Column(name = "extra", columnDefinition = "text")
     private String extra;
+
+    @Column(name = "user_role")
+    private Roles userRole;
 
 }
