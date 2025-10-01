@@ -7,11 +7,10 @@ import com.miswah.apiorbit.exception.ResourceNotFoundException;
 import com.miswah.apiorbit.model.ApiModel;
 import com.miswah.apiorbit.repository.ApiRepository;
 import com.miswah.apiorbit.service.ApiService;
+import com.miswah.apiorbit.utils.CustomLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -26,6 +25,7 @@ public class ApiServiceImpl implements ApiService {
 
     private final ApiRepository apiRepository;
 
+
     @Autowired
     public ApiServiceImpl(ApiRepository apiRepository){
         this.apiRepository = apiRepository;
@@ -35,14 +35,14 @@ public class ApiServiceImpl implements ApiService {
     public ApiResponseDTO createApi(ApiRequestDTO dto) {
         ApiModel model = this.convertToModel(dto);
         this.apiRepository.save(model);
-        logger.info("New API created {}", model.toString());
+        CustomLogger.logInfo(ApiServiceImpl.class, "Create New api");
         return this.convertToDto(model);
     }
 
     @Override
     public List<ApiResponseDTO> getApprovedApis() {
         List<ApiModel> models = this.apiRepository.findByStatus(ApiStatus.ACTIVE);
-        logger.info("Approved api fetched");
+        CustomLogger.logInfo(ApiServiceImpl.class, "Fetch Approved API");
         return this.convertToDtoList(models);
     }
 
@@ -51,7 +51,7 @@ public class ApiServiceImpl implements ApiService {
         Optional<ApiModel> model = this.apiRepository.findById(id);
 
         if(model.isEmpty()){
-            logger.error("No api found for getApi() called");
+            CustomLogger.logError(ApiServiceImpl.class, "Fetch API by id : "+id, new ResourceNotFoundException("No Api found with that id"));
             throw new ResourceNotFoundException("No Api found with that id");
         }
         return this.convertToDto(model.get());

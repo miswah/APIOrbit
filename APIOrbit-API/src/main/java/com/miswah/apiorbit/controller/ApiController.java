@@ -24,7 +24,7 @@ public class ApiController {
     }
 
     @GetMapping
-    @ActivityLog(action="GET_APPROVED_API", module="API", target="#result?.id")
+    @ActivityLog(action="GET_APPROVED_API", module="API")
     public ResponseEntity<List<ApiResponseDTO>> getAllApiDetails(){
         return ResponseEntity.ok(this.apiService.getApprovedApis());
     }
