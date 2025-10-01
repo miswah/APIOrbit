@@ -4,6 +4,7 @@ import com.miswah.apiorbit.dto.request.ApiRequestDTO;
 import com.miswah.apiorbit.dto.response.ApiDefinitionResponseDto;
 import com.miswah.apiorbit.dto.response.ApiResponseDTO;
 import com.miswah.apiorbit.enums.ApiStatus;
+import com.miswah.apiorbit.exception.ResourceNotFoundException;
 import com.miswah.apiorbit.model.ApiDefinitionModel;
 import com.miswah.apiorbit.model.ApiModel;
 import com.miswah.apiorbit.repository.ApiRepository;
@@ -45,7 +46,7 @@ public class ApiServiceImpl implements ApiService {
         Optional<ApiModel> model = this.apiRepository.findById(id);
 
         if(model.isEmpty()){
-            throw new RuntimeException("No Api found with that id");
+            throw new ResourceNotFoundException("No Api found with that id");
         }
         return this.convertToDto(model.get());
     }
@@ -55,7 +56,7 @@ public class ApiServiceImpl implements ApiService {
         Optional<ApiModel> model = this.apiRepository.findById(id);
 
         if(model.isEmpty()){
-            throw new RuntimeException("No Api found with that id");
+            throw new ResourceNotFoundException("No Api found with that id");
         }
 
         model.get().setStatus(ApiStatus.ACTIVE);
@@ -71,7 +72,7 @@ public class ApiServiceImpl implements ApiService {
         Optional<ApiModel> model = this.apiRepository.findById(id);
 
         if(model.isEmpty()){
-            throw new RuntimeException("No Api found with that id");
+            throw new ResourceNotFoundException("No Api found with that id");
         }
 
         ApiModel apiModel = model.get();
