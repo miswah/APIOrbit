@@ -58,6 +58,7 @@ public class SecurityConfig {
 //                        .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
                                 .requestMatchers("/api-docs/**").permitAll()
                                 .requestMatchers("/swagger-ui/**").permitAll()
+                                .requestMatchers("/api/base/approve/*").hasRole(String.valueOf(Roles.ADMIN))
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
