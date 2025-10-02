@@ -3,6 +3,7 @@ package com.miswah.apiorbit.dto.utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.miswah.apiorbit.enums.Outcome;
 import com.miswah.apiorbit.enums.Roles;
+import com.miswah.apiorbit.model.UserModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

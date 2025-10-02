@@ -4,6 +4,7 @@ import com.miswah.apiorbit.dto.request.AuthenticationRequest;
 import com.miswah.apiorbit.dto.request.RegisterRequest;
 import com.miswah.apiorbit.dto.response.AuthenticationResponse;
 import com.miswah.apiorbit.enums.Roles;
+import com.miswah.apiorbit.enums.UserStatus;
 import com.miswah.apiorbit.model.UserModel;
 import com.miswah.apiorbit.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,6 +37,8 @@ public class AuthenticationService {
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(request.getRole() != null ? request.getRole() : Roles.VIEWER);
+        // TODO: User approval flow
+        user.setStatus(UserStatus.ACTIVE);
 
         userRepository.save(user);
 

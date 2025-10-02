@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,7 +37,7 @@ public class ApiDefinitionServiceImpl implements ApiDefinitionService {
     }
 
     @Override
-    public ApiDefinitionResponseDto getDefinitionById(Long id) {
+    public ApiDefinitionResponseDto getDefinitionById(UUID id) {
         return this.convertToDto(this.apiDefinitionRepository.findById(id).orElseThrow());
     }
 
@@ -48,7 +49,7 @@ public class ApiDefinitionServiceImpl implements ApiDefinitionService {
     }
 
     @Override
-    public ApiDefinitionResponseDto updateDefinition(ApiDefinitionRequestDto apiDefinitionRequestDto, Long id) {
+    public ApiDefinitionResponseDto updateDefinition(ApiDefinitionRequestDto apiDefinitionRequestDto, UUID id) {
         Optional<ApiDefinitionModel> apiDefinitionModel = this.apiDefinitionRepository.findAllById(id);
         if(apiDefinitionModel.isEmpty()){
             throw new RuntimeException("No Api Definition found with that id");
@@ -66,7 +67,7 @@ public class ApiDefinitionServiceImpl implements ApiDefinitionService {
     }
 
     @Override
-    public ApiDefinitionResponseDto deleteDefinition(Long id) {
+    public ApiDefinitionResponseDto deleteDefinition(UUID id) {
         Optional<ApiDefinitionModel> apiDefinitionModel = this.apiDefinitionRepository.findAllById(id);
         if(apiDefinitionModel.isEmpty()){
             throw new RuntimeException("No Api Definition found with that id");

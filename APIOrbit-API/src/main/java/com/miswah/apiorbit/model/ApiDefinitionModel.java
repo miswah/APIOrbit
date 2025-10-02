@@ -7,16 +7,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Entity
-@Table(name = "api_definition", uniqueConstraints = {@UniqueConstraint(columnNames={"url_path","http_method", "project_id"})})
+@Table(name = "api_definitions", uniqueConstraints = {@UniqueConstraint(columnNames={"url_path","http_method", "project_id"})})
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ApiDefinitionModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(name = "url_path")
     private String path;

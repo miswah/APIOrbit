@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,7 +35,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectResponseDto getProjectById(Long id) {
+    public ProjectResponseDto getProjectById(UUID id) {
         Optional<ProjectModel> project = projectRepository.findById(id);
 
         if(project.isEmpty()){
@@ -51,7 +52,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectResponseDto updateProject(Long id, ProjectRequestDto projectRequestDto) {
+    public ProjectResponseDto updateProject(UUID id, ProjectRequestDto projectRequestDto) {
         ProjectModel project = projectRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Project not found with id " + id));
 
@@ -64,7 +65,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void deleteProject(Long id) {
+    public void deleteProject(UUID id) {
         Optional<ProjectModel> project = projectRepository.findById(id);
         if(project.isEmpty()){
             throw new RuntimeException("No project found with that id");

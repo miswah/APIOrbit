@@ -5,14 +5,15 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 @Data
 @Table(name = "activity_log")
 @Entity
 public class ActivityLogModel extends Auditable{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(name = "userId")
     private String userId;

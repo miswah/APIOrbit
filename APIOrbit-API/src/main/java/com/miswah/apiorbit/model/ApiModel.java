@@ -6,6 +6,8 @@ import com.miswah.apiorbit.enums.AuthTypeNames;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 @Entity
 @Table(name="apis")
@@ -13,8 +15,8 @@ public class ApiModel extends Auditable {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(name = "name")
     private String name;
@@ -48,7 +50,4 @@ public class ApiModel extends Auditable {
 
     @Column(name = "approved_by")
     private String approvedBy;
-
-    @Column(name = "trace_id")
-    private String traceId;
 }

@@ -6,9 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface ApiDefinitionRepository extends JpaRepository<ApiDefinitionModel, Long> {
-    Optional<ApiDefinitionModel> findAllById(Long id);
+public interface ApiDefinitionRepository extends JpaRepository<ApiDefinitionModel, UUID> {
+    Optional<ApiDefinitionModel> findAllById(UUID id);
     Optional<ApiDefinitionModel> findByPathAndHttpMethod(String path, HttpMethods httpMethods);
 }

@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "project")
 @Data
@@ -16,8 +18,8 @@ import lombok.NoArgsConstructor;
 public class ProjectModel extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @NotBlank(message = "Name is mandatory")
     @Size(max = 100, message = "Name must be less than 100 characters")

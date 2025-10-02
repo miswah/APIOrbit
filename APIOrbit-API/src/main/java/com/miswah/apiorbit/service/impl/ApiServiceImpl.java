@@ -7,6 +7,7 @@ import com.miswah.apiorbit.exception.ResourceNotFoundException;
 import com.miswah.apiorbit.model.ApiModel;
 import com.miswah.apiorbit.repository.ApiRepository;
 import com.miswah.apiorbit.service.ApiService;
+import com.miswah.apiorbit.service.UserLookUpService;
 import com.miswah.apiorbit.utils.CustomLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,11 +26,13 @@ public class ApiServiceImpl implements ApiService {
     private static final Logger logger = LoggerFactory.getLogger(ApiServiceImpl.class);
 
     private final ApiRepository apiRepository;
+    private final UserLookUpService userLookUpService;
 
 
     @Autowired
-    public ApiServiceImpl(ApiRepository apiRepository){
+    public ApiServiceImpl(ApiRepository apiRepository, UserLookUpService userLookUpService){
         this.apiRepository = apiRepository;
+        this.userLookUpService = userLookUpService;
     }
 
     @Override
@@ -47,7 +51,7 @@ public class ApiServiceImpl implements ApiService {
     }
 
     @Override
-    public ApiResponseDTO getApi(Long id) {
+    public ApiResponseDTO getApi(UUID id) {
         Optional<ApiModel> model = this.apiRepository.findById(id);
 
         if(model.isEmpty()){
@@ -58,7 +62,7 @@ public class ApiServiceImpl implements ApiService {
     }
 
     @Override
-    public ApiResponseDTO approveApi(Long id, Principal principal) {
+    public ApiResponseDTO approveApi(UUID id, Principal principal) {
         Optional<ApiModel> model = this.apiRepository.findById(id);
 
         if(model.isEmpty()){
@@ -74,7 +78,7 @@ public class ApiServiceImpl implements ApiService {
     }
 
     @Override
-    public ApiResponseDTO updateApi(ApiRequestDTO dto, Long id, Principal principal) {
+    public ApiResponseDTO updateApi(ApiRequestDTO dto, UUID id, Principal principal) {
         Optional<ApiModel> model = this.apiRepository.findById(id);
 
         if(model.isEmpty()){

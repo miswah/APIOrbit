@@ -5,6 +5,8 @@ import com.miswah.apiorbit.enums.HttpMethods;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.UUID;
+
 
 @Entity
 @Table(name = "mock_api", uniqueConstraints = {@UniqueConstraint(columnNames = {"api_definition_id", "http_method"})})
@@ -12,8 +14,8 @@ import lombok.Data;
 public class MockApiModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "api_version_id", nullable = false)

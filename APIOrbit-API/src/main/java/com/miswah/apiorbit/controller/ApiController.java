@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/base")
@@ -33,13 +34,13 @@ public class ApiController {
 
     @GetMapping("/{id}")
     @ActivityLog(action="GET_API_BY_ID", module="API", target="#result?.id")
-    public ResponseEntity<ApiResponseDTO> getApiDetail(@PathVariable Long id){
+    public ResponseEntity<ApiResponseDTO> getApiDetail(@PathVariable UUID id){
         return ResponseEntity.ok(this.apiService.getApi(id));
     }
 
     @PutMapping("/approve/{id}")
     @ActivityLog(action="APPROVE_API", module="API", target="#result?.id")
-    public ResponseEntity<ApiResponseDTO> approveApi(@PathVariable Long id, Principal principal){
+    public ResponseEntity<ApiResponseDTO> approveApi(@PathVariable UUID id, Principal principal){
         return ResponseEntity.ok(this.apiService.approveApi(id, principal));
     }
 
@@ -52,7 +53,7 @@ public class ApiController {
 
     @PutMapping("/{id}")
     @ActivityLog(action="UPDATE_API", module="API", target="#result?.id")
-    public ResponseEntity<ApiResponseDTO> updateApiDetails(@Valid @RequestBody ApiRequestDTO dto, @PathVariable Long id, Principal principal){
+    public ResponseEntity<ApiResponseDTO> updateApiDetails(@Valid @RequestBody ApiRequestDTO dto, @PathVariable UUID id, Principal principal){
         return ResponseEntity.ok(this.apiService.updateApi(dto, id, principal));
     }
 }

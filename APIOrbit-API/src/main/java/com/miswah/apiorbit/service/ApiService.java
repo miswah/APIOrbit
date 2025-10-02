@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public interface ApiService {
@@ -14,9 +15,9 @@ public interface ApiService {
 
     List<ApiResponseDTO> getApprovedApis();
 
-    ApiResponseDTO getApi(Long id);
+    ApiResponseDTO getApi(UUID id);
 
-    ApiResponseDTO approveApi(Long id, Principal principal);
+    ApiResponseDTO approveApi(UUID id, Principal principal);
 
-    ApiResponseDTO updateApi(ApiRequestDTO data, Long id, Principal principal);
+    ApiResponseDTO updateApi(ApiRequestDTO data, UUID id, Principal principal);
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/project")
@@ -32,7 +33,7 @@ public class ProjectController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProjectResponseDto> getProject(@PathVariable Long id){
+    public ResponseEntity<ProjectResponseDto> getProject(@PathVariable UUID id){
         return ResponseEntity.ok(projectService.getProjectById(id));
     }
 
@@ -43,13 +44,13 @@ public class ProjectController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Long> deleteProject(@PathVariable Long id){
+    public ResponseEntity<UUID> deleteProject(@PathVariable UUID id){
         projectService.deleteProject(id);
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProjectResponseDto> updateProject(@Valid @RequestBody ProjectRequestDto projectRequestDto, @PathVariable Long id){
+    public ResponseEntity<ProjectResponseDto> updateProject(@Valid @RequestBody ProjectRequestDto projectRequestDto, @PathVariable UUID id){
         ProjectResponseDto projectResponseDto = projectService.updateProject(id, projectRequestDto);
         return ResponseEntity.ok(projectResponseDto);
     }

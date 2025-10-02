@@ -11,6 +11,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,6 +32,5 @@ public class ApiDefinitionRequestDto {
     private AuthTypeNames authTypeNames;
 
     @NotNull(message = "Project id is mandatory")
-    @Min(value = 1L, message = "Project id must be less than 100 characters")
-    private Long projectId;
+    private UUID projectId;
 }

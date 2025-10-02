@@ -6,6 +6,8 @@ import com.miswah.apiorbit.service.ApiDefinitionLookUpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class ApiDefinitionLookUpServiceImpl implements ApiDefinitionLookUpService {
     private final ApiDefinitionRepository apiDefinitionRepository;
@@ -16,7 +18,7 @@ public class ApiDefinitionLookUpServiceImpl implements ApiDefinitionLookUpServic
     }
 
     @Override
-    public ApiDefinitionModel findById(Long id) {
+    public ApiDefinitionModel findById(UUID id) {
         return this.apiDefinitionRepository.findById(id).orElseThrow();
     }
 }
