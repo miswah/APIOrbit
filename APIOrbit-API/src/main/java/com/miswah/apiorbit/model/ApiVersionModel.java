@@ -1,13 +1,15 @@
 package com.miswah.apiorbit.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.miswah.apiorbit.enums.ApiStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "api_version")
+@Table(name = "api_version", uniqueConstraints = {@UniqueConstraint(columnNames={"version", "api_definition_id"})})
 @Data
 public class ApiVersionModel {
 
@@ -18,8 +20,9 @@ public class ApiVersionModel {
     @Column(name = "version")
     private float version;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "api_definition_id", nullable = false)
+    @JsonIgnore
     private ApiDefinitionModel apiDefinitionModel;
 
     @ManyToOne

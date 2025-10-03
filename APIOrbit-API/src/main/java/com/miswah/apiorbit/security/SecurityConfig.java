@@ -50,15 +50,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/**").hasRole(String.valueOf(Roles.ADMIN))
                         .requestMatchers("/api/editor/**").hasAnyRole(String.valueOf(Roles.EDITOR),String.valueOf(Roles.ADMIN))
                         .requestMatchers("/api/viewer/**").hasAnyRole(String.valueOf(Roles.VIEWER),String.valueOf(Roles.ADMIN),String.valueOf(Roles.EDITOR))
-
-                        .requestMatchers("/api/products/**").hasAnyRole("USER", "MANAGER", "ADMIN")
-//                        .requestMatchers(HttpMethod.GET, "/api/products/**").hasAnyRole("USER", "MANAGER", "ADMIN")
-//                        .requestMatchers(HttpMethod.POST, "/api/products/**").hasAnyRole("MANAGER", "ADMIN")
-//                        .requestMatchers(HttpMethod.PUT, "/api/products/**").hasAnyRole("MANAGER", "ADMIN")
-//                        .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
-                                .requestMatchers("/api-docs/**").permitAll()
-                                .requestMatchers("/swagger-ui/**").permitAll()
-                                .requestMatchers("/api/base/approve/*").hasRole(String.valueOf(Roles.ADMIN))
+                        .requestMatchers("/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/api/base/approve/*").hasRole(String.valueOf(Roles.ADMIN))
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
