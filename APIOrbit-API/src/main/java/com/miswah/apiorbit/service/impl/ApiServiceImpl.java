@@ -2,7 +2,7 @@ package com.miswah.apiorbit.service.impl;
 
 import com.miswah.apiorbit.dto.request.ApiRequestDTO;
 import com.miswah.apiorbit.dto.response.ApiResponseDTO;
-import com.miswah.apiorbit.enums.ApiStatus;
+import com.miswah.apiorbit.enums.ResourceStatus;
 import com.miswah.apiorbit.exception.ResourceNotFoundException;
 import com.miswah.apiorbit.model.ApiModel;
 import com.miswah.apiorbit.repository.ApiRepository;
@@ -45,7 +45,7 @@ public class ApiServiceImpl implements ApiService {
 
     @Override
     public List<ApiResponseDTO> getApprovedApis() {
-        List<ApiModel> models = this.apiRepository.findByStatus(ApiStatus.ACTIVE);
+        List<ApiModel> models = this.apiRepository.findByStatus(ResourceStatus.ACTIVE);
         CustomLogger.logInfo(ApiServiceImpl.class, "Fetch Approved API");
         return this.convertToDtoList(models);
     }
@@ -69,7 +69,7 @@ public class ApiServiceImpl implements ApiService {
             throw new ResourceNotFoundException("No Api found with that id");
         }
 
-        model.get().setStatus(ApiStatus.ACTIVE);
+        model.get().setStatus(ResourceStatus.ACTIVE);
         model.get().setApprovedBy(principal.getName());
 
         this.apiRepository.save(model.get());
@@ -98,7 +98,7 @@ public class ApiServiceImpl implements ApiService {
     private ApiModel convertToModel(ApiRequestDTO dto){
         ApiModel model = new ApiModel();
         model.setCategory(dto.getCategory());
-        model.setStatus(ApiStatus.PENDING);
+        model.setStatus(ResourceStatus.PENDING);
         model.setDocumentationUrl(dto.getDocumentationUrl());
         model.setMockUrl(dto.getMockUrl());
         return model;

@@ -51,7 +51,7 @@ public class MockApiAdminServiceImpl implements MockApiAdminService {
     private ApiDefinitionResponseDto convertToMockObject(MockApiModel model){
         ApiDefinitionResponseDto mock = new ApiDefinitionResponseDto();
         mock.setId(model.getApiDefinitionModel().getId());
-        mock.setProjectId(model.getProjectModel().getId());
+        mock.setProjectId(model.getProjectModel());
         mock.setUrlPath(model.getApiDefinitionModel().getPath());
         mock.setDescription(model.getApiDefinitionModel().getDescription());
         return mock;

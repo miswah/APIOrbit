@@ -1,9 +1,8 @@
 package com.miswah.apiorbit.dto.response;
 
 
-import com.miswah.apiorbit.enums.ApiStatus;
+import com.miswah.apiorbit.enums.ResourceStatus;
 import com.miswah.apiorbit.enums.AuthTypeNames;
-import com.miswah.apiorbit.model.UserModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +21,7 @@ public class ApiResponseDTO {
     private String tags;
     private String urlBase;
     private double version;
-    private ApiStatus status;
+    private ResourceStatus status;
     private AuthTypeNames authType;
     private String documentationUrl;
     private String mockUrl;

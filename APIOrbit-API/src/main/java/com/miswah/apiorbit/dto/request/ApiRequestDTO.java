@@ -1,13 +1,10 @@
 package com.miswah.apiorbit.dto.request;
 
 
-import com.miswah.apiorbit.enums.ApiStatus;
 import com.miswah.apiorbit.enums.AuthTypeNames;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
 
 @Data
 @AllArgsConstructor

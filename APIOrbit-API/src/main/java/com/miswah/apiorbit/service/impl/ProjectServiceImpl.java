@@ -78,7 +78,7 @@ public class ProjectServiceImpl implements ProjectService {
         ProjectModel model = new ProjectModel();
         model.setName(dto.getName());
         model.setDescription(dto.getDescription());
-        model.setUser_id(userLookUpService.getUserByEmail(email));
+        model.setUser(userLookUpService.getUserByEmail(email));
         model.setBaseUrl(dto.getBaseUrl());
         return model;
     }

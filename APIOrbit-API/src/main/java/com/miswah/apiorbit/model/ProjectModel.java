@@ -1,5 +1,7 @@
 package com.miswah.apiorbit.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -38,5 +40,7 @@ public class ProjectModel extends Auditable {
     @NotNull(message = "Owner ID is mandatory")
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
-    private UserModel user_id;
+//    @JsonIgnoreProperties({"password", "role", "authorities", "id", "created_date", "updated_date", "created_by", "last_modified_by"})
+    @JsonIgnore
+    private UserModel user;
 }
