@@ -1,6 +1,7 @@
 package com.miswah.apiorbit.dto.request;
 
 import com.miswah.apiorbit.enums.ApiStatus;
+import com.miswah.apiorbit.model.ApiDependencyModel;
 import com.miswah.apiorbit.validators.JsonValidator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +15,7 @@ import java.util.UUID;
 public class ApiVersionRequestDto {
     public float version;
     public UUID apiDefinitionId;
+    private ApiDependencyModel apiDependencyModel;
     public ApiStatus apiStatus;
 
     @JsonValidator.ValidJson

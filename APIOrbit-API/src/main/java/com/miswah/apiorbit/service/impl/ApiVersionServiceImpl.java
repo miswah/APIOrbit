@@ -3,7 +3,7 @@ package com.miswah.apiorbit.service.impl;
 import com.miswah.apiorbit.dto.request.ApiVersionRequestDto;
 import com.miswah.apiorbit.dto.response.ApiVersionResponseDto;
 import com.miswah.apiorbit.exception.ResourceNotFoundException;
-import com.miswah.apiorbit.model.ApiModel;
+
 import com.miswah.apiorbit.model.ApiVersionModel;
 import com.miswah.apiorbit.repository.ApiVersionRespository;
 import com.miswah.apiorbit.service.ApiDefinitionLookUpService;
@@ -40,10 +40,41 @@ public class ApiVersionServiceImpl implements ApiVersionService {
     public List<ApiVersionResponseDto> getByApiVersion(UUID apiDefinitionId) {
         Optional<List<ApiVersionModel>> model = this.apiVersionRespository.findByApiDefinitionModel(this.apiDefinitionLookUpService.findById(apiDefinitionId));
         if(model.isEmpty()){
-            CustomLogger.logError(ApiServiceImpl.class, "Fetch API version by definition id : "+apiDefinitionId, new ResourceNotFoundException("No Api version found with that definition id"));
+            CustomLogger.logError(ApiVersionServiceImpl.class, "Fetch API version by definition id : "+apiDefinitionId, new ResourceNotFoundException("No Api version found with that definition id"));
             throw new ResourceNotFoundException("No Api version found with that definition id");
         }
         return this.convertToDtoList(model.get());
+    }
+
+    @Override
+    public ApiVersionResponseDto updateById(UUID id, ApiVersionRequestDto dto) {
+        Optional<ApiVersionModel> model = this.apiVersionRespository.findById(id);
+        if(model.isEmpty()){
+            CustomLogger.logError(ApiVersionServiceImpl.class, "Fetch API version by id : "+id, new ResourceNotFoundException("No Api version found with that id"));
+            throw new ResourceNotFoundException("No Api version found with that id");
+        }
+
+        model.get().setSchemaRequest(dto.getSchemaRequest());
+        model.get().setSchemaResponse(dto.getSchemaResponse());
+        model.get().setApiDependencyModel(dto.getApiDependencyModel());
+
+        this.apiVersionRespository.save(model.get());
+
+        return this.convertToDto(model.get());
+    }
+
+    @Override
+    public ApiVersionResponseDto deleteById(UUID id) {
+        Optional<ApiVersionModel> model = this.apiVersionRespository.findById(id);
+
+        if(model.isEmpty()){
+            CustomLogger.logError(ApiVersionServiceImpl.class, "Fetch API version by id : "+id, new ResourceNotFoundException("No Api version found with that id"));
+            throw new ResourceNotFoundException("No Api version found with that id");
+        }
+
+        this.apiVersionRespository.deleteById(id);
+
+        return this.convertToDto(model.get());
     }
 
     private ApiVersionModel convertToModel(ApiVersionRequestDto dto){

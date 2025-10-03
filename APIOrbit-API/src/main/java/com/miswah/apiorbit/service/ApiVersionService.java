@@ -12,4 +12,8 @@ public interface ApiVersionService {
     String create(ApiVersionRequestDto apiVersionRequestDto);
 
     List<ApiVersionResponseDto> getByApiVersion(UUID apiDefinitionId);
+
+    ApiVersionResponseDto updateById(UUID id, ApiVersionRequestDto dto);
+
+    ApiVersionResponseDto deleteById(UUID id);
 }
