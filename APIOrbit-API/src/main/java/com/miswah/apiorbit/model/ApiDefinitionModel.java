@@ -40,10 +40,6 @@ public class ApiDefinitionModel {
     private ProjectModel project;
 
     @ManyToOne
-    @JoinColumn(name = "dependency_id", nullable = false)
-    private ApiDependencyModel apiDependencyModel;
-
-    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private UserModel createdBy;
 

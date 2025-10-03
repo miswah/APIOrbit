@@ -77,31 +77,34 @@ public class ApiDefinitionServiceImpl implements ApiDefinitionService {
         return this.convertToDto(apiDefinitionModel.get());
     }
 
-    private ApiDefinitionResponseDto convertToDto(ApiDefinitionModel apiDefinitionModel){
-        ApiDefinitionResponseDto apiDefinitionResponseDto = new ApiDefinitionResponseDto();
-        apiDefinitionResponseDto.setId(apiDefinitionModel.getId());
-        apiDefinitionResponseDto.setProjectId(apiDefinitionModel.getProject().getId());
-        apiDefinitionResponseDto.setDescription(apiDefinitionModel.getDescription());
-        apiDefinitionResponseDto.setUrlPath(apiDefinitionModel.getPath());
+    private ApiDefinitionResponseDto convertToDto(ApiDefinitionModel model){
+        ApiDefinitionResponseDto dto = new ApiDefinitionResponseDto();
+        dto.setId(model.getId());
+        dto.setProjectId(model.getProject());
+        dto.setUserEmail(model.getCreatedBy().getEmail());
+        dto.setDescription(model.getDescription());
+        dto.setUrlPath(model.getPath());
+        dto.setAuthTypeNames(model.getAuthType());
+        dto.setHttpMethods(model.getHttpMethod());
+        dto.setName(model.getName());
 
-        return apiDefinitionResponseDto;
+        return dto;
     }
 
     private List<ApiDefinitionResponseDto> convertToDtoList(List<ApiDefinitionModel> apiDefinitionModels){
         return apiDefinitionModels.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
-    private ApiDefinitionModel convertToModel(ApiDefinitionRequestDto apiDefinitionRequestDto, String email){
-        ApiDefinitionModel apiDefinitionModel = new ApiDefinitionModel();
-        apiDefinitionModel.setPath(apiDefinitionRequestDto.getUrlPath());
-        apiDefinitionModel.setDescription(apiDefinitionRequestDto.getDescription());
-        apiDefinitionModel.setAuthType(apiDefinitionRequestDto.getAuthTypeNames());
-        apiDefinitionModel.setHttpMethod(apiDefinitionRequestDto.getHttpMethods());
+    private ApiDefinitionModel convertToModel(ApiDefinitionRequestDto dto, String email){
+        ApiDefinitionModel model = new ApiDefinitionModel();
+        model.setPath(dto.getUrlPath());
+        model.setDescription(dto.getDescription());
+        model.setAuthType(dto.getAuthTypeNames());
+        model.setHttpMethod(dto.getHttpMethods());
+        model.setName(dto.getName());
+        model.setProject(this.projectLookUpService.getProjectById(dto.getProjectId()));
+        model.setCreatedBy(this.userLookUpService.getUserByEmail(email));
 
-        apiDefinitionModel.setProject(this.projectLookUpService.getProjectById(apiDefinitionRequestDto.getProjectId()));
-
-        apiDefinitionModel.setCreatedBy(this.userLookUpService.getUserByEmail(email));
-
-        return apiDefinitionModel;
+        return model;
     }
 }

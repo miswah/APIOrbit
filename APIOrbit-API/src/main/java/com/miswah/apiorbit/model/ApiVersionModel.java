@@ -22,6 +22,10 @@ public class ApiVersionModel {
     @JoinColumn(name = "api_definition_id", nullable = false)
     private ApiDefinitionModel apiDefinitionModel;
 
+    @ManyToOne
+    @JoinColumn(name = "dependency_id", nullable = true)
+    private ApiDependencyModel apiDependencyModel;
+
     @Column(name = "status")
     private ApiStatus status;
 
