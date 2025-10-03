@@ -16,4 +16,6 @@ public interface ApiVersionService {
     ApiVersionResponseDto updateById(UUID id, ApiVersionRequestDto dto);
 
     ApiVersionResponseDto deleteById(UUID id);
+
+    ApiVersionResponseDto approveById(UUID id);
 }

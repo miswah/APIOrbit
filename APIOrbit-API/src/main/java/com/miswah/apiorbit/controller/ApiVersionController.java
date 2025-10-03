@@ -45,4 +45,9 @@ public class ApiVersionController {
     public ResponseEntity<ApiVersionResponseDto> deleteById(@PathVariable UUID id){
         return ResponseEntity.ok(this.apiVersionService.deleteById(id));
     }
+
+    @PutMapping("/approve/{id}")
+    public ResponseEntity<ApiVersionResponseDto> approveById(@PathVariable UUID id){
+        return ResponseEntity.ok(this.apiVersionService.approveById(id));
+    }
 }

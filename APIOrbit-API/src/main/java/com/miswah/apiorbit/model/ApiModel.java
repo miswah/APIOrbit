@@ -1,9 +1,7 @@
 package com.miswah.apiorbit.model;
 
 
-import com.miswah.apiorbit.enums.ApiStatus;
-import com.miswah.apiorbit.enums.AuthTypeNames;
-import com.miswah.apiorbit.enums.HttpMethods;
+import com.miswah.apiorbit.enums.ResourceStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -27,7 +25,7 @@ public class ApiModel extends Auditable {
     private ApiDefinitionTagModel apiDefinitionTagModel;
 
     @Column(name = "status")
-    private ApiStatus status;
+    private ResourceStatus status;
 
     @Column(name ="documentation_url")
     private String documentationUrl;

@@ -1,11 +1,10 @@
 package com.miswah.apiorbit.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.miswah.apiorbit.enums.ApiStatus;
+import com.miswah.apiorbit.enums.ResourceStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -30,7 +29,7 @@ public class ApiVersionModel {
     private ApiDependencyModel apiDependencyModel;
 
     @Column(name = "status")
-    private ApiStatus status;
+    private ResourceStatus status;
 
     @Column(name = "schema_request")
     private String schemaRequest;

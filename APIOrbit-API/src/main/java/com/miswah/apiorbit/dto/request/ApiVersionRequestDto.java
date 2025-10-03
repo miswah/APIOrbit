@@ -1,6 +1,6 @@
 package com.miswah.apiorbit.dto.request;
 
-import com.miswah.apiorbit.enums.ApiStatus;
+import com.miswah.apiorbit.enums.ResourceStatus;
 import com.miswah.apiorbit.model.ApiDependencyModel;
 import com.miswah.apiorbit.validators.JsonValidator;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ public class ApiVersionRequestDto {
     public float version;
     public UUID apiDefinitionId;
     private ApiDependencyModel apiDependencyModel;
-    public ApiStatus apiStatus;
+    public ResourceStatus resourceStatus;
 
     @JsonValidator.ValidJson
     public String schemaRequest;
