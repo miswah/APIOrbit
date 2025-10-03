@@ -14,4 +14,5 @@ public class ProjectResponseDto {
     private UUID id;
     private String name;
     private String description;
+    private String baseUrl;
 }

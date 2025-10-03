@@ -23,6 +23,9 @@ public class ApiDefinitionModel {
     @Column(name = "url_path")
     private String path;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name ="http_method")
     private HttpMethods httpMethod;
 
@@ -35,6 +38,10 @@ public class ApiDefinitionModel {
     @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)
     private ProjectModel project;
+
+    @ManyToOne
+    @JoinColumn(name = "dependency_id", nullable = false)
+    private ApiDependencyModel apiDependencyModel;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

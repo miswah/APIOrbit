@@ -74,20 +74,22 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.delete(project.get());
     }
 
-    private ProjectModel convertToEntity(ProjectRequestDto ProjectRequestDto, String email) {
-        ProjectModel project = new ProjectModel();
-        project.setName(ProjectRequestDto.getName());
-        project.setDescription(ProjectRequestDto.getDescription());
-        project.setUser_id(userLookUpService.getUserByEmail(email));
-        return project;
+    private ProjectModel convertToEntity(ProjectRequestDto dto, String email) {
+        ProjectModel model = new ProjectModel();
+        model.setName(dto.getName());
+        model.setDescription(dto.getDescription());
+        model.setUser_id(userLookUpService.getUserByEmail(email));
+        model.setBaseUrl(dto.getBaseUrl());
+        return model;
     }
 
-    private ProjectResponseDto convertToResponseDto(ProjectModel projectModel) {
-        ProjectResponseDto projectResponseDto = new ProjectResponseDto();
-        projectResponseDto.setId(projectModel.getId());
-        projectResponseDto.setName(projectModel.getName());
-        projectResponseDto.setDescription(projectModel.getDescription());
-        return projectResponseDto;
+    private ProjectResponseDto convertToResponseDto(ProjectModel model) {
+        ProjectResponseDto dto = new ProjectResponseDto();
+        dto.setId(model.getId());
+        dto.setName(model.getName());
+        dto.setDescription(model.getDescription());
+        dto.setBaseUrl(model.getBaseUrl());
+        return dto;
     }
 
     private List<ProjectResponseDto> convertToResponseDtoList(List<ProjectModel> projects) {

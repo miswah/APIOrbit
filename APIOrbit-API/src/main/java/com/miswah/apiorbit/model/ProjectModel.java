@@ -31,6 +31,10 @@ public class ProjectModel extends Auditable {
     @Column(name = "description")
     private String description;
 
+    @NotBlank(message = "base url is mandatory")
+    @Column(name = "base_url")
+    private String baseUrl;
+
     @NotNull(message = "Owner ID is mandatory")
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)

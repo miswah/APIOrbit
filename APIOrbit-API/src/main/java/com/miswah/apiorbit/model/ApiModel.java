@@ -3,6 +3,7 @@ package com.miswah.apiorbit.model;
 
 import com.miswah.apiorbit.enums.ApiStatus;
 import com.miswah.apiorbit.enums.AuthTypeNames;
+import com.miswah.apiorbit.enums.HttpMethods;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,29 +19,15 @@ public class ApiModel extends Auditable {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "description")
-    private String description;
-
     @Column(name = "category")
     private String category;
 
-    @Column(name = "tags")
-    private String tags;
-
-    @Column(name = "base_url")
-    private String baseUrl;
-
-    @Column(name = "version")
-    private double version;
+    @ManyToOne
+    @JoinColumn(name = "tags", nullable = true)
+    private ApiDefinitionTagModel apiDefinitionTagModel;
 
     @Column(name = "status")
     private ApiStatus status;
-
-    @Column(name = "auth_Type")
-    private AuthTypeNames authTypeNames;
 
     @Column(name ="documentation_url")
     private String documentationUrl;

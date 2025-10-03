@@ -86,14 +86,7 @@ public class ApiServiceImpl implements ApiService {
         }
 
         ApiModel apiModel = model.get();
-
-        if(dto.getName() != null) apiModel.setName(dto.getName());
-        if(dto.getDescription() != null) apiModel.setDescription(dto.getDescription());
         if(dto.getCategory() != null) apiModel.setCategory(dto.getCategory());
-        if(dto.getTags() != null) apiModel.setTags(dto.getTags());
-        if(dto.getUrlBase() != null) apiModel.setBaseUrl(dto.getUrlBase());
-        if(dto.getVersion() != 0) apiModel.setVersion(dto.getVersion());
-        if(dto.getAuthType() != null) apiModel.setAuthTypeNames(dto.getAuthType());
         if(dto.getDocumentationUrl() != null) apiModel.setDocumentationUrl(dto.getDocumentationUrl());
         if(dto.getMockUrl() != null) apiModel.setMockUrl(dto.getMockUrl());
 
@@ -104,14 +97,8 @@ public class ApiServiceImpl implements ApiService {
 
     private ApiModel convertToModel(ApiRequestDTO dto){
         ApiModel model = new ApiModel();
-        model.setName(dto.getName());
-        model.setDescription(dto.getDescription());
         model.setCategory(dto.getCategory());
-        model.setTags(dto.getTags());
-        model.setBaseUrl(dto.getUrlBase());
-        model.setVersion(dto.getVersion());
         model.setStatus(ApiStatus.PENDING);
-        model.setAuthTypeNames(dto.getAuthType());
         model.setDocumentationUrl(dto.getDocumentationUrl());
         model.setMockUrl(dto.getMockUrl());
         return model;
@@ -120,14 +107,8 @@ public class ApiServiceImpl implements ApiService {
     private ApiResponseDTO convertToDto(ApiModel model){
         ApiResponseDTO dto = new ApiResponseDTO();
         dto.setId(model.getId());
-        dto.setName(model.getName());
-        dto.setDescription(model.getDescription());
         dto.setCategory(model.getCategory());
-        dto.setTags(model.getTags());
-        dto.setUrlBase(model.getBaseUrl());
-        dto.setVersion(model.getVersion());
         dto.setStatus(model.getStatus());
-        dto.setAuthType(model.getAuthTypeNames());
         dto.setDocumentationUrl(model.getDocumentationUrl());
         dto.setMockUrl(model.getMockUrl());
         dto.setApprovedBy(model.getApprovedBy());
