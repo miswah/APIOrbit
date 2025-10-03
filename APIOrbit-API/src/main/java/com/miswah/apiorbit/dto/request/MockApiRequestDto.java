@@ -5,14 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class MockApiRequestDto {
 
-    public Long apiVersionId;
-    public Long apiDefinitionId;
+    public UUID apiVersionId;
+    public UUID apiDefinitionId;
     public HttpMethods httpMethods;
-    public Long projectId;
+    public UUID projectId;
     public int delay;
 }

@@ -3,17 +3,19 @@ package com.miswah.apiorbit.dto.response;
 
 import com.miswah.apiorbit.enums.ApiStatus;
 import com.miswah.apiorbit.enums.AuthTypeNames;
+import com.miswah.apiorbit.model.UserModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ApiResponseDTO {
-    private Long id;
+    private UUID id;
     private String name;
     private String description;
     private String category;

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/api-definitions")
@@ -28,7 +29,7 @@ public class ApiDefinitionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiDefinitionResponseDto> getDefinitionById(@PathVariable Long id){
+    public ResponseEntity<ApiDefinitionResponseDto> getDefinitionById(@PathVariable UUID id){
         return ResponseEntity.ok(apiDefinitionService.getDefinitionById(id));
     }
 
@@ -38,12 +39,12 @@ public class ApiDefinitionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiDefinitionResponseDto> updateDefinition(@Valid @RequestBody ApiDefinitionRequestDto apiDefinitionRequestDto, @PathVariable Long id){
+    public ResponseEntity<ApiDefinitionResponseDto> updateDefinition(@Valid @RequestBody ApiDefinitionRequestDto apiDefinitionRequestDto, @PathVariable UUID id){
         return  ResponseEntity.ok(apiDefinitionService.updateDefinition(apiDefinitionRequestDto, id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiDefinitionResponseDto> deleteDefinition(@PathVariable Long id){
+    public ResponseEntity<ApiDefinitionResponseDto> deleteDefinition(@PathVariable UUID id){
         return ResponseEntity.ok(apiDefinitionService.deleteDefinition(id));
     }
 }

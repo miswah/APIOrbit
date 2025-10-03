@@ -6,6 +6,8 @@ import com.miswah.apiorbit.service.ApiVersionLookUpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class ApiVersionLookUpServiceImpl implements ApiVersionLookUpService {
     private final ApiVersionRespository apiVersionRespository;
@@ -16,7 +18,7 @@ public class ApiVersionLookUpServiceImpl implements ApiVersionLookUpService {
     }
 
     @Override
-    public ApiVersionModel getById(Long id) {
+    public ApiVersionModel getById(UUID id) {
         return this.apiVersionRespository.findById(id).orElseThrow();
     }
 }

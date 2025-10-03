@@ -6,12 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ApiVersionRequestDto {
     public float version;
-    public Long apiDefinitionId;
+    public UUID apiDefinitionId;
     public ApiStatus apiStatus;
 
     @JsonValidator.ValidJson

@@ -7,6 +7,8 @@ import com.miswah.apiorbit.service.ProjectLookUpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class ProjectLookUpServiceImpl implements ProjectLookUpService {
 
@@ -18,7 +20,7 @@ public class ProjectLookUpServiceImpl implements ProjectLookUpService {
     }
 
     @Override
-    public ProjectModel getProjectById(Long id) {
+    public ProjectModel getProjectById(UUID id) {
         return this.projectRepository.findById(id).orElseThrow();
     }
 }

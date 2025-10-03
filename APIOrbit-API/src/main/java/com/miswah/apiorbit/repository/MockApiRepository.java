@@ -8,9 +8,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface MockApiRepository extends JpaRepository<MockApiModel, Long> {
+public interface MockApiRepository extends JpaRepository<MockApiModel, UUID> {
 
     Optional<MockApiModel> findByApiDefinitionModel(ApiDefinitionModel id);
     Optional<MockApiModel> findByApiDefinitionModelAndHttpMethods(ApiDefinitionModel model, HttpMethods httpMethods);

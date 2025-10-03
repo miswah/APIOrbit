@@ -2,6 +2,7 @@ package com.miswah.apiorbit.model;
 
 
 import com.miswah.apiorbit.enums.Roles;
+import com.miswah.apiorbit.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(schema = "user", name = "user")
@@ -17,8 +19,8 @@ import java.util.List;
 public class UserModel extends Auditable implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(name="name")
     private String name;
@@ -31,6 +33,9 @@ public class UserModel extends Auditable implements UserDetails {
 
     @Column(name = "role")
     private Roles role;
+
+    @Column(name = "status")
+    private UserStatus status;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -49,7 +54,7 @@ public class UserModel extends Auditable implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
+        return !this.status.equals(UserStatus.LOCKED);
     }
 
     @Override
@@ -59,6 +64,6 @@ public class UserModel extends Auditable implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return this.status.equals(UserStatus.ACTIVE);
     }
 }

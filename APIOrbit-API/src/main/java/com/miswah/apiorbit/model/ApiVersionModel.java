@@ -4,14 +4,16 @@ import com.miswah.apiorbit.enums.ApiStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "api_version")
 @Data
 public class ApiVersionModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(name = "version")
     private float version;
