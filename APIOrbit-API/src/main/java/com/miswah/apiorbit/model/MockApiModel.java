@@ -9,7 +9,7 @@ import java.util.UUID;
 
 
 @Entity
-@Table(name = "mock_api", uniqueConstraints = {@UniqueConstraint(columnNames = {"api_definition_id", "http_method"})})
+@Table(name = "mock_api", uniqueConstraints = {@UniqueConstraint(columnNames = {"api_version_id", "http_method"})})
 @Data
 public class MockApiModel {
 
@@ -29,13 +29,13 @@ public class MockApiModel {
     @JoinColumn(name = "created_by", nullable = false)
     private UserModel createdBy;
 
-    @Column(name = "http_method", nullable = false)
-    private HttpMethods httpMethods;
-
     @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)
     private ProjectModel projectModel;
 
     @Column(name="delay", nullable = true)
     private int delay;
+
+    @Column(name ="http_method", nullable = false)
+    private HttpMethods httpMethods;
 }
