@@ -11,10 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MockApiRequestDto {
-
     public UUID apiVersionId;
-    public UUID apiDefinitionId;
-    public HttpMethods httpMethods;
-    public UUID projectId;
     public int delay;
+    public HttpMethods httpMethod;
 }

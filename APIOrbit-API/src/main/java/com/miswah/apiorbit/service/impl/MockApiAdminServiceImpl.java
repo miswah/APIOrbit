@@ -39,12 +39,12 @@ public class MockApiAdminServiceImpl implements MockApiAdminService {
 
     private MockApiModel convertToModel(MockApiRequestDto mockApiRequestDTO, String email){
         MockApiModel model = new MockApiModel();
-        model.setHttpMethods(mockApiRequestDTO.getHttpMethods());
         model.setDelay(mockApiRequestDTO.getDelay());
         model.setCreatedBy(this.userLookUpService.getUserByEmail(email));
-        model.setApiDefinitionModel(this.apiDefinitionLookUpService.findById(mockApiRequestDTO.getApiDefinitionId()));
         model.setApiVersionModel(this.apiVersionLookUpService.getById(mockApiRequestDTO.getApiVersionId()));
-        model.setProjectModel(this.projectLookUpService.getProjectById(mockApiRequestDTO.getProjectId()));
+        model.setApiDefinitionModel(model.getApiVersionModel().getApiDefinitionModel());
+        model.setProjectModel(model.getApiDefinitionModel().getProject());
+        model.setHttpMethods(mockApiRequestDTO.getHttpMethod());
         return model;
     }
 
