@@ -8,7 +8,15 @@
             "schematics": {
                 "@schematics/angular:component": {
                     "style": "scss"
-                }
+                },
+                "@schematics/angular:component": { "type": "component" },
+                "@schematics/angular:directive": { "type": "directive" },
+                "@schematics/angular:service": { "type": "service" },
+                "@schematics/angular:guard": { "typeSeparator": "." },
+                "@schematics/angular:interceptor": { "typeSeparator": "." },
+                "@schematics/angular:module": { "typeSeparator": "." },
+                "@schematics/angular:pipe": { "typeSeparator": "." },
+                "@schematics/angular:resolver": { "typeSeparator": "." }
             },
             "root": "",
             "sourceRoot": "src",
@@ -32,7 +40,8 @@
                             }
                         ],
                         "styles": [
-                            "src/assets/styles.scss"
+                            "src/assets/styles.scss",
+                            "node_modules/ngx-toastr/toastr.css"
                         ],
                         "scripts": []
                     },
@@ -85,7 +94,8 @@
                             }
                         ],
                         "styles": [
-                            "src/assets/styles.scss"
+                            "src/assets/styles.scss",
+                            "node_modules/ngx-toastr/toastr.css"
                         ],
                         "scripts": []
                     }
