@@ -12,4 +12,5 @@ public interface UserService {
     public List<UserResponseDTO> getAllUsers();
     public UserResponseDTO approve(UUID uuid);
     public UserResponseDTO disable(UUID uuid);
+    public UserResponseDTO getUser(UUID uuid);
 }

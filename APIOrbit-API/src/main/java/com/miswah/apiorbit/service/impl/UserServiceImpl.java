@@ -57,6 +57,12 @@ public class UserServiceImpl implements UserService {
         return this.convertToDTO(model);
     }
 
+    @Override
+    public UserResponseDTO getUser(UUID uuid) {
+        UserModel model = this.userRepository.findById(uuid).orElseThrow();
+        return this.convertToDTO(model);
+    }
+
 
     private UserResponseDTO convertToDTO(UserModel model){
       return new UserResponseDTO(model.getId(), model.getEmail(), model.getName(), model.getRole());

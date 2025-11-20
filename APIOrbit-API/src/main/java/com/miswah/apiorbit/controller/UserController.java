@@ -26,6 +26,11 @@ public class UserController {
         return ResponseEntity.ok(this.userService.getAllUsers());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponseDTO> getUser(@PathVariable UUID id){
+        return ResponseEntity.ok(this.userService.getUser(id));
+    }
+
     @GetMapping("/approve/{id}")
     public ResponseEntity<UserResponseDTO> approveUser(@PathVariable UUID id){
         return ResponseEntity.ok(this.userService.approve(id));
