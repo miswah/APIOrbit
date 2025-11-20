@@ -3,6 +3,8 @@ package com.miswah.apiorbit.exception;
 import com.miswah.apiorbit.utils.CustomLogger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -71,6 +73,29 @@ public class GlobalExceptionHandler {
         CustomLogger.logError(GlobalExceptionHandler.class, response.toString(), ex);
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public  ResponseEntity<Object> disabledUser(AuthenticationException ex){
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", HttpStatus.FORBIDDEN.value());
+        response.put("message", "User is disabled please reach out to admin for approval");
+        response.put("errors", ex.getMessage());
+
+        CustomLogger.logError(GlobalExceptionHandler.class, response.toString(), ex);
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Object> notAllowed(AccessDeniedException ex){
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", HttpStatus.FORBIDDEN.value());
+        response.put("message", "Operation not allowed for this user");
+        response.put("errors", ex.getMessage());
+
+        CustomLogger.logError(GlobalExceptionHandler.class, response.toString(), ex);
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
+
 
     // Add more @ExceptionHandler methods for other custom or built-in exceptions
     @ExceptionHandler(Exception.class)

@@ -31,23 +31,24 @@ public class AuthenticationService {
         this.authenticationManager = authenticationManager;
     }
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public String register(RegisterRequest request, Roles role) {
         var user = new UserModel();
         user.setName(request.getName());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(request.getRole() != null ? request.getRole() : Roles.VIEWER);
-        // TODO: User approval flow
-        user.setStatus(UserStatus.ACTIVE);
+        user.setRole(role != null ? role : Roles.VIEWER);
+        user.setStatus(UserStatus.PENDING);
 
         userRepository.save(user);
 
-        var jwtToken = jwtService.generateToken(user);
-        AuthenticationResponse res = new AuthenticationResponse();
-        res.setToken(jwtToken);
-        res.setRole(user.getRole());
-        res.setName(user.getName());
-        return res;
+        //TODO : better response object
+//        var jwtToken = jwtService.generateToken(user);
+//        AuthenticationResponse res = new AuthenticationResponse();
+//        res.setToken(jwtToken);
+//        res.setRole(user.getRole());
+//        res.setName(user.getName());
+//        return res;
+       return user.getEmail();
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
