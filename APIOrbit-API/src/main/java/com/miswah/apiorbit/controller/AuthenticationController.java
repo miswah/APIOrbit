@@ -3,14 +3,16 @@ package com.miswah.apiorbit.controller;
 import com.miswah.apiorbit.dto.request.AuthenticationRequest;
 import com.miswah.apiorbit.dto.request.RegisterRequest;
 import com.miswah.apiorbit.dto.response.AuthenticationResponse;
+import com.miswah.apiorbit.dto.response.UserResponseDTO;
+import com.miswah.apiorbit.enums.Roles;
 import com.miswah.apiorbit.security.AuthenticationService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/auth")
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
@@ -19,11 +21,21 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(
+    @PostMapping("/register/editor")
+    public ResponseEntity<String> registerEditor(
             @RequestBody RegisterRequest request
     ) {
-        return ResponseEntity.ok(authenticationService.register(request));
+        //TODO: add user details in response
+        return ResponseEntity.ok(authenticationService.register(request, Roles.EDITOR));
+    }
+
+
+    @PostMapping("/register/viewer")
+    public ResponseEntity<String> registerViewer(
+            @RequestBody RegisterRequest request
+    ) {
+        //TODO: add user details in response
+        return ResponseEntity.ok(authenticationService.register(request, Roles.VIEWER));
     }
 
     @PostMapping("/login")
