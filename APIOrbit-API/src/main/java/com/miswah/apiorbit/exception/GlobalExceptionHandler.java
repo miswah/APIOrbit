@@ -44,7 +44,7 @@ public class GlobalExceptionHandler {
         response.put("status", HttpStatus.BAD_REQUEST.value());
         response.put("message", "Validation failed");
         response.put("errors", errors);
-
+        CustomLogger.logError(GlobalExceptionHandler.class, response.toString(), ex);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
@@ -63,7 +63,7 @@ public class GlobalExceptionHandler {
         response.put("status", HttpStatus.BAD_REQUEST.value());
         response.put("message", "Validation failed");
         response.put("errors", errors);
-
+        CustomLogger.logError(GlobalExceptionHandler.class, response.toString(), ex);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
@@ -104,6 +104,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGenericException(Exception ex) {
+        CustomLogger.logError(GlobalExceptionHandler.class, null, ex);
         return new ResponseEntity<>("An unexpected error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
