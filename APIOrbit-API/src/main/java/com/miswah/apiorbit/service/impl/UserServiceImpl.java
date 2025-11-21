@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
 
 
     private UserResponseDTO convertToDTO(UserModel model){
-      return new UserResponseDTO(model.getId(), model.getEmail(), model.getName(), model.getRole());
+      return new UserResponseDTO(model.getId(), model.getEmail(), model.getName(), model.getRole(), model.getStatus(), model.getCreatedDate());
     }
 
     private List<UserResponseDTO> convertToDTOList(List<UserModel> models){
