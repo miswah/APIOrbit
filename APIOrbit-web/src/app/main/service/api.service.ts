@@ -26,4 +26,8 @@ export class ApiService {
   public updatedApi(id: string, body : APIModel): Observable<APIModel> {
     return this._http.put<APIModel>(`${environment.apiUrl}/base/${id}`, body);
   }
+
+  public createApi(body: APIModel): Observable<APIModel> {
+    return this._http.post<APIModel>(`${environment.apiUrl}/base`, body);
+  }
 }
