@@ -35,4 +35,7 @@ public class ApiModel extends Auditable {
 
     @Column(name = "approved_by")
     private String approvedBy;
+
+    @Column(name = "instructions")
+    private String instructions;
 }

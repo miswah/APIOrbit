@@ -28,8 +28,15 @@ public class ApiController {
     @GetMapping
     @ActivityLog(action="GET_APPROVED_API", module="API")
     @Loggable
-    public ResponseEntity<List<ApiResponseDTO>> getAllApiDetails(){
+    public ResponseEntity<List<ApiResponseDTO>> getApprovedApiDetails(){
         return ResponseEntity.ok(this.apiService.getApprovedApis());
+    }
+
+    @GetMapping("/list")
+    @ActivityLog(action="GET_ALL_API", module="API")
+    @Loggable
+    public ResponseEntity<List<ApiResponseDTO>> getAllApiDetails(){
+        return ResponseEntity.ok(this.apiService.getAllApi());
     }
 
     @GetMapping("/{id}")

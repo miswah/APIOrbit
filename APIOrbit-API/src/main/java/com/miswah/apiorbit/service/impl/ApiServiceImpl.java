@@ -95,12 +95,20 @@ public class ApiServiceImpl implements ApiService {
         return this.convertToDto(apiModel);
     }
 
+    @Override
+    public List<ApiResponseDTO> getAllApi() {
+        List<ApiModel> models = this.apiRepository.findAll();
+        CustomLogger.logInfo(ApiServiceImpl.class, "Fetch All API");
+        return this.convertToDtoList(models);
+    }
+
     private ApiModel convertToModel(ApiRequestDTO dto){
         ApiModel model = new ApiModel();
         model.setCategory(dto.getCategory());
         model.setStatus(ResourceStatus.PENDING);
         model.setDocumentationUrl(dto.getDocumentationUrl());
         model.setMockUrl(dto.getMockUrl());
+        model.setInstructions(dto.getInstructions());
         return model;
     }
 
@@ -114,6 +122,7 @@ public class ApiServiceImpl implements ApiService {
         dto.setApprovedBy(model.getApprovedBy());
         dto.setCreatedBy(model.getCreatedBy());
         dto.setUpdatedDate(model.getUpdatedDate());
+        dto.setInstructions(model.getInstructions());
         return dto;
     }
 
