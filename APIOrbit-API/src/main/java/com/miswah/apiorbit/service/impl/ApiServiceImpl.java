@@ -110,7 +110,7 @@ public class ApiServiceImpl implements ApiService {
             throw new ResourceNotFoundException("No Api found with that id");
         }
 
-        model.get().setStatus(ResourceStatus.DEPRECATED);
+        model.get().setStatus(ResourceStatus.DISABLED);
         model.get().setApprovedBy(principal.getName());
 
         this.apiRepository.save(model.get());

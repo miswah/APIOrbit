@@ -52,9 +52,9 @@ public class ApiController {
     }
 
     @PutMapping("/disable/{id}")
-    @ActivityLog(action="APPROVE_API", module="API", target="#result?.id")
+    @ActivityLog(action="DISABLE_API", module="API", target="#result?.id")
     public ResponseEntity<ApiResponseDTO> disableApi(@PathVariable UUID id, Principal principal){
-        return ResponseEntity.ok(this.apiService.approveApi(id, principal));
+        return ResponseEntity.ok(this.apiService.disableApi(id, principal));
     }
 
     @PostMapping
