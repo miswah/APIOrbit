@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
@@ -19,16 +19,16 @@ import { AuthenticationService } from '@/auth/service/authentication.service';
     templateUrl: './signup.component.html'
 })
 export class SignupComponent implements OnInit {
-  loginForm!: FormGroup;
+  signupForm!: FormGroup;
   
   // fb: FormBuilder = Inject(FormBuilder);
 
-  public constructor(private fb: FormBuilder, private authenticationService : AuthenticationService) {
+  public constructor(private fb: FormBuilder, private authenticationService : AuthenticationService, private router : Router) {
     
   }
 
   ngOnInit(): void {
-    this.loginForm = this.fb.group({
+    this.signupForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       name: ['', [Validators.required, Validators.minLength(4)]],
       // Must contain a digit, uppercase letter, and special character
@@ -38,20 +38,18 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.loginForm.invalid) {
+    if (this.signupForm.invalid) {
       return;
     }
 
-    console.log(this.loginForm.value);
-
     this.authenticationService.signup(this.name.value, this.email.value, this.password.value).subscribe(data => {
-      console.log(JSON.stringify(data));
+      this.router.navigate(["/login"]);
     })
   }
 
 
   get formControls() {
-    return this.loginForm.controls;
+    return this.signupForm.controls;
   }
   
   get name() : FormControl {

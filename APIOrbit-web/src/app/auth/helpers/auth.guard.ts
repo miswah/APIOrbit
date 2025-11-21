@@ -33,7 +33,7 @@ export class AuthGuard implements CanActivate {
     //   return false;
     // }
 
-    if (localStorage.getItem("userJWT")) {
+    if (localStorage.getItem("currentUser")) {
       // logged in so return true
       return true;
     }

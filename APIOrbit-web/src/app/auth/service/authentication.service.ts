@@ -54,7 +54,7 @@ export class AuthenticationService {
    */
   login(email: string, password: string) {
     return this._http
-      .post<any>(`${environment.apiUrl}/users/authenticate`, { email, password })
+      .post<any>(`${environment.apiUrl}/auth/login`, { email, password })
       .pipe(
         map(user => {
           // login successful if there's a jwt token in the response
@@ -102,7 +102,7 @@ export class AuthenticationService {
           if (user && user.token) {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('currentUser', JSON.stringify(user));
-
+          
             // Display welcome toast!
             setTimeout(() => {
               this._toastrService.success(
