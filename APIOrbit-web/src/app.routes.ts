@@ -15,7 +15,8 @@ export const appRoutes: Routes = [
         component: AppLayout,
         canActivate: [AuthGuard],
         children: [
-            { path : '', loadComponent: () => import('./app/main/ui/dashboard/dashboard.component').then(m => m.DashboardComponent)}
+            { path: '', loadComponent: () => import('./app/main/ui/dashboard/dashboard.component').then(m => m.DashboardComponent) },
+            { path : 'users', loadComponent: () => import('./app/main/ui/users/users.component').then(m => m.UsersComponent)}
         ]
     },
     { path: 'login', component: LoginComponent },
