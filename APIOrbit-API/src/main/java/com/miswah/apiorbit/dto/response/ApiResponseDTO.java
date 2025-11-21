@@ -28,4 +28,5 @@ public class ApiResponseDTO {
     private String createdBy;
     private String approvedBy;
     private Date updatedDate;
+    private String instructions;
 }

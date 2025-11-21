@@ -89,10 +89,39 @@ public class ApiServiceImpl implements ApiService {
         if(dto.getCategory() != null) apiModel.setCategory(dto.getCategory());
         if(dto.getDocumentationUrl() != null) apiModel.setDocumentationUrl(dto.getDocumentationUrl());
         if(dto.getMockUrl() != null) apiModel.setMockUrl(dto.getMockUrl());
+        if(dto.getName() != null) apiModel.setName(dto.getName());
+        if(dto.getDescription() != null) apiModel.setDescriptions(dto.getDescription());
+        if(dto.getTags() != null) apiModel.setTags(dto.getTags());
+        if(dto.getUrlBase() != null) apiModel.setBaseUrl(dto.getUrlBase());
+        if(dto.getAuthType() != null) apiModel.setAuthType(dto.getAuthType());
+        if(dto.getInstructions() != null) apiModel.setInstructions(dto.getInstructions());
 
         this.apiRepository.save(apiModel);
 
         return this.convertToDto(apiModel);
+    }
+
+    @Override
+    public List<ApiResponseDTO> getAllApi() {
+        List<ApiModel> models = this.apiRepository.findAll();
+        CustomLogger.logInfo(ApiServiceImpl.class, "Fetch All API");
+        return this.convertToDtoList(models);
+    }
+
+    @Override
+    public ApiResponseDTO disableApi(UUID id, Principal principal) {
+        Optional<ApiModel> model = this.apiRepository.findById(id);
+
+        if(model.isEmpty()){
+            throw new ResourceNotFoundException("No Api found with that id");
+        }
+
+        model.get().setStatus(ResourceStatus.DISABLED);
+        model.get().setApprovedBy(principal.getName());
+
+        this.apiRepository.save(model.get());
+
+        return this.convertToDto(model.get());
     }
 
     private ApiModel convertToModel(ApiRequestDTO dto){
@@ -101,6 +130,9 @@ public class ApiServiceImpl implements ApiService {
         model.setStatus(ResourceStatus.PENDING);
         model.setDocumentationUrl(dto.getDocumentationUrl());
         model.setMockUrl(dto.getMockUrl());
+        model.setInstructions(dto.getInstructions());
+        model.setName(dto.getName());
+        model.setDescriptions(dto.getDescription());
         return model;
     }
 
@@ -114,6 +146,12 @@ public class ApiServiceImpl implements ApiService {
         dto.setApprovedBy(model.getApprovedBy());
         dto.setCreatedBy(model.getCreatedBy());
         dto.setUpdatedDate(model.getUpdatedDate());
+        dto.setInstructions(model.getInstructions());
+        dto.setName(model.getName());
+        dto.setDescription(model.getDescriptions());
+        dto.setTags(model.getTags());
+        dto.setUrlBase(model.getBaseUrl());
+        dto.setAuthType(model.getAuthType());
         return dto;
     }
 

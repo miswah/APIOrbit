@@ -28,8 +28,15 @@ public class ApiController {
     @GetMapping
     @ActivityLog(action="GET_APPROVED_API", module="API")
     @Loggable
-    public ResponseEntity<List<ApiResponseDTO>> getAllApiDetails(){
+    public ResponseEntity<List<ApiResponseDTO>> getApprovedApiDetails(){
         return ResponseEntity.ok(this.apiService.getApprovedApis());
+    }
+
+    @GetMapping("/list")
+    @ActivityLog(action="GET_ALL_API", module="API")
+    @Loggable
+    public ResponseEntity<List<ApiResponseDTO>> getAllApiDetails(){
+        return ResponseEntity.ok(this.apiService.getAllApi());
     }
 
     @GetMapping("/{id}")
@@ -42,6 +49,12 @@ public class ApiController {
     @ActivityLog(action="APPROVE_API", module="API", target="#result?.id")
     public ResponseEntity<ApiResponseDTO> approveApi(@PathVariable UUID id, Principal principal){
         return ResponseEntity.ok(this.apiService.approveApi(id, principal));
+    }
+
+    @PutMapping("/disable/{id}")
+    @ActivityLog(action="DISABLE_API", module="API", target="#result?.id")
+    public ResponseEntity<ApiResponseDTO> disableApi(@PathVariable UUID id, Principal principal){
+        return ResponseEntity.ok(this.apiService.disableApi(id, principal));
     }
 
     @PostMapping

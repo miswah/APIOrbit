@@ -20,4 +20,8 @@ public interface ApiService {
     ApiResponseDTO approveApi(UUID id, Principal principal);
 
     ApiResponseDTO updateApi(ApiRequestDTO data, UUID id, Principal principal);
+
+    List<ApiResponseDTO> getAllApi();
+
+    ApiResponseDTO disableApi(UUID id, Principal principal);
 }

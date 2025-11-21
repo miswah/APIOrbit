@@ -43,7 +43,7 @@ public class UserController {
         return ResponseEntity.ok(this.userService.approve(id));
     }
 
-    @DeleteMapping("/{id}")
+    @PutMapping("/disable/{id}")
     @Loggable
     @ActivityLog(action="DISABLE_USER_BY_ID", module="USERS")
     public ResponseEntity<UserResponseDTO> disableUser(@PathVariable UUID id){

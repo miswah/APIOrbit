@@ -20,4 +20,5 @@ public class ApiRequestDTO {
     private AuthTypeNames authType;
     private String documentationUrl;
     private String mockUrl;
+    private String instructions;
 }
