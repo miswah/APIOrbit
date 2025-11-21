@@ -102,6 +102,22 @@ public class ApiServiceImpl implements ApiService {
         return this.convertToDtoList(models);
     }
 
+    @Override
+    public ApiResponseDTO disableApi(UUID id, Principal principal) {
+        Optional<ApiModel> model = this.apiRepository.findById(id);
+
+        if(model.isEmpty()){
+            throw new ResourceNotFoundException("No Api found with that id");
+        }
+
+        model.get().setStatus(ResourceStatus.DEPRECATED);
+        model.get().setApprovedBy(principal.getName());
+
+        this.apiRepository.save(model.get());
+
+        return this.convertToDto(model.get());
+    }
+
     private ApiModel convertToModel(ApiRequestDTO dto){
         ApiModel model = new ApiModel();
         model.setCategory(dto.getCategory());
@@ -109,6 +125,8 @@ public class ApiServiceImpl implements ApiService {
         model.setDocumentationUrl(dto.getDocumentationUrl());
         model.setMockUrl(dto.getMockUrl());
         model.setInstructions(dto.getInstructions());
+        model.setName(dto.getName());
+        model.setDescriptions(dto.getDescription());
         return model;
     }
 
@@ -123,6 +141,8 @@ public class ApiServiceImpl implements ApiService {
         dto.setCreatedBy(model.getCreatedBy());
         dto.setUpdatedDate(model.getUpdatedDate());
         dto.setInstructions(model.getInstructions());
+        dto.setName(model.getName());
+        dto.setDescription(model.getDescriptions());
         return dto;
     }
 
