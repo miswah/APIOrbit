@@ -89,6 +89,12 @@ public class ApiServiceImpl implements ApiService {
         if(dto.getCategory() != null) apiModel.setCategory(dto.getCategory());
         if(dto.getDocumentationUrl() != null) apiModel.setDocumentationUrl(dto.getDocumentationUrl());
         if(dto.getMockUrl() != null) apiModel.setMockUrl(dto.getMockUrl());
+        if(dto.getName() != null) apiModel.setName(dto.getName());
+        if(dto.getDescription() != null) apiModel.setDescriptions(dto.getDescription());
+        if(dto.getTags() != null) apiModel.setTags(dto.getTags());
+        if(dto.getUrlBase() != null) apiModel.setBaseUrl(dto.getUrlBase());
+        if(dto.getAuthType() != null) apiModel.setAuthType(dto.getAuthType());
+        if(dto.getInstructions() != null) apiModel.setInstructions(dto.getInstructions());
 
         this.apiRepository.save(apiModel);
 
@@ -143,6 +149,9 @@ public class ApiServiceImpl implements ApiService {
         dto.setInstructions(model.getInstructions());
         dto.setName(model.getName());
         dto.setDescription(model.getDescriptions());
+        dto.setTags(model.getTags());
+        dto.setUrlBase(model.getBaseUrl());
+        dto.setAuthType(model.getAuthType());
         return dto;
     }
 
