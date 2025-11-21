@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../service/authentication.service';
+import { User } from '../models/user';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -22,6 +23,8 @@ export class JwtInterceptor implements HttpInterceptor {
     const currentUser = this._authenticationService.currentUserValue;
     const isLoggedIn = currentUser && currentUser.token;
     const isApiUrl = request.url.startsWith(environment.apiUrl);
+    
+    //won't work when users has came back to it after closing tab can do localhost on ng on inti TODO
     if (isLoggedIn && isApiUrl) {
       request = request.clone({
         setHeaders: {

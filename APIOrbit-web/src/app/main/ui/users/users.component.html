@@ -1,0 +1,133 @@
+<div class="card">
+            <div class="font-semibold text-xl mb-4">List of Users</div>
+            <p-table
+                #dt1
+                [value]="users"
+                dataKey="id"
+                [rows]="10"
+                [loading]="loading"
+                [rowHover]="true"
+                [showGridlines]="true"
+                [paginator]="true"
+                [globalFilterFields]="['name', 'status']"
+                responsiveLayout="scroll"
+            >
+                <ng-template #caption>
+                    <div class="flex justify-between items-center flex-column sm:flex-row">
+                        <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
+                        <p-iconfield iconPosition="left" class="ml-auto">
+                            <p-inputicon>
+                                <i class="pi pi-search"></i>
+                            </p-inputicon>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt1, $event)" placeholder="Search keyword" />
+                        </p-iconfield>
+                    </div>
+                </ng-template>
+                <ng-template #header>
+                    <tr>
+                        <th style="min-width: 12rem">
+                            <div class="flex justify-between items-center">
+                                Name
+                                <p-columnFilter type="text" field="name" display="menu" placeholder="Search by name"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width: 12rem">
+                            <div class="flex justify-between items-center">
+                                Email
+                                <p-columnFilter type="text" field="name" display="menu" placeholder="Search by email"></p-columnFilter>
+                            </div>
+                        </th>
+                       
+                        <th style="min-width: 10rem">
+                            <div class="flex justify-between items-center">
+                                Created On
+                                <p-columnFilter type="date" field="date" display="menu" placeholder="mm/dd/yyyy"></p-columnFilter>
+                            </div>
+                        </th>
+
+                        <th style="min-width: 12rem">
+                            <div class="flex justify-between items-center">
+                                Role
+                                <p-columnFilter field="role" matchMode="equals" display="menu">
+                                    <ng-template #filter let-value let-filter="filterCallback">
+                                        <p-select [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)" placeholder="Any" [style]="{ 'min-width': '12rem' }">
+                                            <ng-template let-option #item>
+                                                <span [class]="'customer-badge status-' + option.value">{{ option.label }}</span>
+                                            </ng-template>
+                                        </p-select>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+                      
+                        <th style="min-width: 8rem">
+                            <div class="flex justify-between items-center">
+                                Status
+                               <p-columnFilter field="status" matchMode="equals" display="menu">
+                                    <ng-template #filter let-value let-filter="filterCallback">
+                                        <p-select [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)" placeholder="Any" [style]="{ 'min-width': '12rem' }">
+                                            <ng-template let-option #item>
+                                                <span [class]="'customer-badge status-' + option.value">{{ option.label }}</span>
+                                            </ng-template>
+                                        </p-select>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+
+                            <th style="min-width: 8rem">
+                            <div class="flex justify-between items-center">
+                                Approve
+                                <p-columnFilter type="boolean" field="verified" display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template #body let-customer>
+                    <tr>
+                        <td>
+                            {{ customer.name }}
+                        </td>
+                        <td>
+                            <div class="flex items-center gap-2">
+                                <span>{{ customer.email }}</span>
+                            </div>
+                        </td>
+                     
+                        <td>
+                            {{ customer.createdDate | date: 'MM/dd/yyyy h:mm:ss a' }}
+                        </td>
+                    
+                        <td>
+                            <p-tag [value]="customer.role.toUpperCase()" [severity]="getSeverity(customer.role.toLowerCase())" styleClass="dark:bg-surface-900!" />
+                        </td>
+                      
+                        <td class="text-center">
+                            <p-tag [value]="customer.status.toLowerCase()" [severity]="getSeverity(customer.status.toLowerCase())" styleClass="dark:bg-surface-900!" />
+                        </td>
+
+                         <td class="text-center">
+                            @if (customer.status == 'ACTIVE') {
+                               <p-button label="DISABLE" styleClass="w-full" (onClick)="blockUser(customer.uuid)"></p-button>
+                            } @else if (customer.status == 'PENDING') {
+                                <p-button label="APPROVE" styleClass="w-full" (onClick)="approveUser(customer.uuid)"></p-button>
+                            }
+                             @else if (customer.status == 'DEACTIVE') {
+                                <!-- <p-button label="ACTIVATE" styleClass="w-full" (onClick)="activateUser(customer.uuid)"></p-button> -->
+                                  <p-tag [value]="customer.status.toLowerCase()" [severity]="getSeverity(customer.status.toLowerCase())" styleClass="dark:bg-surface-900!" />
+                            }
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template #emptymessage>
+                    <tr>
+                        <td colspan="8">No customers found.</td>
+                    </tr>
+                </ng-template>
+                <ng-template #loadingbody>
+                    <tr>
+                        <td colspan="8">Loading customers data. Please wait.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
