@@ -29,6 +29,6 @@ public class DocumentationController {
 
     @PutMapping("/{id}")
     public ResponseEntity<DocumentationResponseDTO> updatedDocById(@PathVariable UUID id, @Valid @RequestBody DocumentationRequestDTO dto){
-
+        return ResponseEntity.ok(this.documentationService.updatedDocsById(id, dto));
     }
 }

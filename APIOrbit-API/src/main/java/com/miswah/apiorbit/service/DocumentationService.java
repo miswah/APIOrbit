@@ -7,6 +7,6 @@ import java.util.UUID;
 
 public interface DocumentationService {
 
-    DocumentationResponseDTO getDocsByApiId(UUID id);
-    DocumentationResponseDTO updatedDocsById(UUID id, DocumentationRequestDTO dto);
+    DocumentationResponseDTO getDocsByApiId(UUID apiId);
+    DocumentationResponseDTO updatedDocsById(UUID apiId, DocumentationRequestDTO dto);
 }

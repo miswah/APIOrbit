@@ -20,9 +20,10 @@ public class DocumentationModel {
     private UUID id;
 
     @OneToOne
-    @JoinColumn(name = "api_id", nullable = false)
-    private ApiModel apiModel;
+    @JoinColumn(name = "api", nullable = false)
+    private ApiModel api;
 
-    @Column(name = "raw_text")
+    @Lob
+    @Column(name = "raw_text", columnDefinition="LONGTEXT")
     private String text;
 }
