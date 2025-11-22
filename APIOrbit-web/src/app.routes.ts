@@ -17,7 +17,8 @@ export const appRoutes: Routes = [
         children: [
             { path: '', loadComponent: () => import('./app/main/ui/dashboard/dashboard.component').then(m => m.DashboardComponent) },
             { path: 'users', loadComponent: () => import('./app/main/ui/users/users.component').then(m => m.UsersComponent) },
-            { path : 'apis', loadComponent: () => import('./app/main/ui/apis/apis.component').then(m => m.ApisComponent)}
+            { path: 'apis', loadComponent: () => import('./app/main/ui/apis/apis.component').then(m => m.ApisComponent) },
+            { path : 'documentation', loadComponent: () => import('./app/main/ui/documentation/documentation.component').then(m => m.DocumentationComponent)}
         ]
     },
     { path: 'login', component: LoginComponent },
