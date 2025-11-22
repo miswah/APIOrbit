@@ -1,0 +1,243 @@
+ <p-toolbar styleClass="mb-6">
+            <ng-template #start>
+                <p-button label="New" icon="pi pi-plus" severity="secondary" class="mr-2" (onClick)="openNew()" />
+                <!-- <p-button severity="secondary" label="Delete" icon="pi pi-trash" outlined (onClick)="deleteSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length" /> -->
+            </ng-template>
+
+            <ng-template #end>
+                <p-button label="Export" icon="pi pi-upload" severity="secondary" (onClick)="exportCSV()" />
+            </ng-template>
+        </p-toolbar>
+
+<div class="card">
+            <div class="font-semibold text-xl mb-4">List of API</div>
+            <p-table
+                #dt
+                [value]="apis"
+                dataKey="id"
+                [rows]="10"
+                [loading]="loading"
+                [rowHover]="true"
+                [showGridlines]="true"
+                [paginator]="true"
+                [globalFilterFields]="['name', 'status']"
+                responsiveLayout="scroll"
+            >
+                <ng-template #caption>
+                    <div class="flex justify-between items-center flex-column sm:flex-row">
+                        <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                        <p-iconfield iconPosition="left" class="ml-auto">
+                            <p-inputicon>
+                                <i class="pi pi-search"></i>
+                            </p-inputicon>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search keyword" />
+                        </p-iconfield>
+                    </div>
+                </ng-template>
+                <ng-template #header>
+                    <tr>
+                        <th style="min-width: 12rem">
+                            <div class="flex justify-between items-center">
+                                Name
+                                <p-columnFilter type="text" field="name" display="menu" placeholder="Search by name"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width: 12rem">
+                            <div class="flex justify-between items-center">
+                                Description
+                                <p-columnFilter type="text" field="name" display="menu" placeholder="Search by email"></p-columnFilter>
+                            </div>
+                        </th>
+                       
+                        <th style="min-width: 10rem">
+                            <div class="flex justify-between items-center">
+                                Created On
+                                <p-columnFilter type="date" field="date" display="menu" placeholder="mm/dd/yyyy"></p-columnFilter>
+                            </div>
+                        </th>
+
+                        <th style="min-width: 12rem">
+                            <div class="flex justify-between items-center">
+                                Category
+                                <p-columnFilter field="category" matchMode="equals" display="menu">
+                                    <ng-template #filter let-value let-filter="filterCallback">
+                                        <p-select [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)" placeholder="Any" [style]="{ 'min-width': '12rem' }">
+                                            <ng-template let-option #item>
+                                                <span [class]="'customer-badge status-' + option.value">{{ option.label }}</span>
+                                            </ng-template>
+                                        </p-select>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+
+                          <th style="min-width: 12rem">
+                            <div class="flex justify-between items-center">
+                                Tags
+                                <p-columnFilter field="tags" matchMode="equals" display="menu">
+                                    <ng-template #filter let-value let-filter="filterCallback">
+                                        <p-select [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)" placeholder="Any" [style]="{ 'min-width': '12rem' }">
+                                            <ng-template let-option #item>
+                                                <span [class]="'customer-badge status-' + option.value">{{ option.label }}</span>
+                                            </ng-template>
+                                        </p-select>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+
+                        <th style="min-width: 8rem">
+                            <div class="flex justify-between items-center">
+                                Status
+                               <p-columnFilter field="status" matchMode="equals" display="menu">
+                                    <ng-template #filter let-value let-filter="filterCallback">
+                                        <p-select [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)" placeholder="Any" [style]="{ 'min-width': '12rem' }">
+                                            <ng-template let-option #item>
+                                                <span [class]="'customer-badge status-' + option.value">{{ option.label }}</span>
+                                            </ng-template>
+                                        </p-select>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+
+                            <th style="min-width: 8rem">
+                            <div class="flex justify-between items-center">
+                                Action
+                                <p-columnFilter type="boolean" field="verified" display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template #body let-api>
+                    <tr>
+                        <td>
+                            {{ api.name }}
+                        </td>
+                        <td>
+                            <div class="flex items-center gap-2">
+                                <span>{{ api.description }}</span>
+                            </div>
+                        </td>
+                     
+                        <td>
+                            {{ api.updatedDate | date: 'MM/dd/yyyy h:mm:ss a' }}
+                        </td>
+                    
+                        <td>
+                            <p-tag [value]="api.category.toUpperCase()" [severity]="getSeverity(api.category.toLowerCase())" styleClass="dark:bg-surface-900!" />
+                        </td>
+
+                        <td>
+                            <ng-container *ngFor="let tag of api.tagArray">
+                                <p-tag [value]="tag.toUpperCase()" [severity]="getSeverity(tag.toLowerCase())" styleClass="dark:bg-surface-900!" />
+                            </ng-container>
+                        </td>
+                      
+                        <td class="text-center">
+                            <p-tag [value]="api.status.toLowerCase()" [severity]="getSeverity(api.status.toLowerCase())" styleClass="dark:bg-surface-900!" />
+                        </td>
+
+                         <td class="text-center">
+                            @if (api.status == 'ACTIVE' || api.status.toLowerCase() == 'delete' || api.status.toLowerCase() == 'deprecated') {
+                               <p-button label="DISABLE" styleClass="w-full" (onClick)="blockApi(api.id)"></p-button>
+                            } @else if (api.status == 'PENDING') {
+                                <p-button label="APPROVE" styleClass="w-full" (onClick)="approveAPi(api.id)"></p-button>
+                            }
+                             @else if (api.status == 'DEACTIVE') {
+                               
+                                  <p-tag [value]="api.status.toLowerCase()" [severity]="getSeverity(api.status.toLowerCase())" styleClass="dark:bg-surface-900!" />
+                            }
+
+                            <p-button label="OPEN" styleClass="w-full" (onClick)="openApiDetails(api)"></p-button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template #emptymessage>
+                    <tr>
+                        <td colspan="8">No apis found.</td>
+                    </tr>
+                </ng-template>
+                <ng-template #loadingbody>
+                    <tr>
+                        <td colspan="8">Loading apis data. Please wait.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+
+
+
+
+        <p-dialog [(visible)]="apiDialog" [style]="{ width: '450px' }" header="Api Details" [modal]="true">
+            <ng-template #content>
+                <div class="flex flex-col gap-6">
+                    <div>
+                        <label for="name" class="block font-bold mb-3">Name</label>
+                        <input type="text" pInputText id="name" [(ngModel)]="selectedApi.name" required autofocus fluid />
+                        <small class="text-red-500" *ngIf="submitted && !selectedApi?.name">Name is required.</small>
+                    </div>
+
+                    <div>
+                        <label for="description" class="block font-bold mb-3">Description</label>
+                        <textarea id="description" pTextarea [(ngModel)]="selectedApi.description" required rows="3" cols="20" fluid></textarea>
+                    </div>
+
+                    <div>
+                        <span class="block font-bold mb-4">Category</span>
+                       <input type="category" pInputText id="name" [(ngModel)]="selectedApi.category" required autofocus fluid />
+                    </div>
+
+                      <div>
+                        <span class="block font-bold mb-4">Instructions</span>
+                       <input type="text" pInputText id="instructions" [(ngModel)]="selectedApi.instructions" required autofocus fluid />
+                    </div>
+
+                    <div>
+                        <span class="block font-bold mb-4">Auth Type</span>
+                       <p-select [(ngModel)]="selectedApi.authType" inputId="authType" [options]="AuthTypes" optionLabel="label" optionValue="label" placeholder="Select a Auth Type" fluid />
+                    </div>
+
+                    <div>
+                        <span class="block font-bold mb-4">Tags</span>
+                       <input type="text" pInputText id="tags" [(ngModel)]="selectedApi.tags" required autofocus fluid />
+                    </div>
+
+                    <div>
+                        <span class="block font-bold mb-4">Base URL</span>
+                       <input type="text" pInputText id="baseurl" [(ngModel)]="selectedApi.urlBase" required autofocus fluid />
+                    </div>
+
+                    <div>
+                        <span class="block font-bold mb-4">Documentation URL</span>
+                       <input type="text" pInputText id="docurl" [(ngModel)]="selectedApi.documentationUrl" required autofocus fluid />
+                    </div>
+
+                    <div>
+                        <span class="block font-bold mb-4">Mock URL</span>
+                       <input type="text" pInputText id="mockurl" [(ngModel)]="selectedApi.mockUrl" required autofocus fluid />
+                    </div>
+                    
+                     <div>
+                        <span class="block font-bold mb-4">Created By</span>
+                       <input type="text" pInputText id="createdBy" [(ngModel)]="selectedApi.createdBy" readonly required autofocus fluid />
+                    </div>
+
+                    <div>
+                        <span class="block font-bold mb-4">Approved By</span>
+                       <input type="text" pInputText id="approvedBy" [(ngModel)]="selectedApi.approvedBy" readonly required autofocus fluid />
+                    </div>
+
+                    <div>
+                        <span class="block font-bold mb-4">Updated Date</span>
+                       <input type="text" pInputText id="datedDate" [(ngModel)]="selectedApi.updatedDate" readonly required autofocus fluid />
+                    </div>
+                </div>
+            </ng-template>
+
+            <ng-template #footer>
+                <p-button label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />
+                <p-button label="Save" icon="pi pi-check" (click)="saveapi(selectedApi)" />
+            </ng-template>
+        </p-dialog>

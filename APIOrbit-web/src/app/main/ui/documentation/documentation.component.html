@@ -1,0 +1,143 @@
+    <div class="p-6 bg-gray-50 min-h-screen">
+      <h1 class="text-center mb-10 text-3xl font-bold text-gray-800">Available API Services</h1>
+
+      <!-- Responsive Grid Container using Tailwind CSS Grid -->
+      <!-- gap-6 adds spacing between items -->
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 max-w-7xl mx-auto">
+        
+        <!-- Loop through the data array -->
+        <!-- Each item is a responsive card element -->
+        @for (apiDetail of apis; track apiDetail.id) {
+        
+          
+          <!-- Card Container: Implements style, hover, and responsive height -->
+          <div class="api-details-card bg-white p-6 rounded-xl shadow-md transition-all duration-300 hover:scale-[1.02] hover:shadow-xl h-full flex flex-col">
+            
+            <!-- Header Section (Name and ID) -->
+            <div class="flex justify-between items-start mb-4">
+                <div class="flex-grow">
+                    <!-- API Name (Header equivalent) -->
+                    <h2 class="text-xl font-bold text-gray-900 mb-1">{{ apiDetail.name }}</h2> 
+                    <!-- API ID -->
+                    <p class="text-xs text-gray-500 font-mono">ID: {{ apiDetail.id }}</p>
+                </div>
+                <!-- Category Badge (Manual Tailwind implementation) -->
+                <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full ml-2">
+                    {{ apiDetail.category }}
+                </span>
+            </div>
+
+            <!-- Status Section (Highly Visible) -->
+            <div class="mb-4 flex items-center">
+                <span class="font-semibold text-gray-700 text-sm mr-2">Status:</span>
+                <!-- Dynamic Status Badge -->
+                <span 
+                    [ngClass]="{
+                        'bg-yellow-100 text-yellow-800': apiDetail.status === 'PENDING',
+                        'bg-green-100 text-green-800': apiDetail.status === 'ACTIVE',
+                        'bg-red-100 text-red-800': apiDetail.status === 'DEPRECATED'
+                    }"
+                    class="text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider"
+                >
+                    {{ apiDetail.status }}
+                </span>
+            </div>
+
+            <!-- Details Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-3 mb-6 flex-grow">
+                
+                <!-- Item: Description (Full width) -->
+                <div class="col-span-full">
+                    <label class="detail-label">Description</label>
+                    <p class="detail-value">{{ apiDetail.description }}</p>
+                </div>
+                
+                <!-- Item: Auth Type -->
+                <div class="detail-item">
+                    <label class="detail-label">Auth Type</label>
+                    <p class="detail-value">{{ apiDetail.authType }}</p>
+                </div>
+                
+                <!-- Item: Tags -->
+                <div class="detail-item">
+                    <label class="detail-label">Tags</label>
+                    <!-- Tag implementation -->
+                    <span class="bg-gray-200 text-gray-700 text-xs font-medium px-2 py-0.5 rounded-lg">
+                        {{ apiDetail.tags }}
+                    </span>
+                </div>
+
+                <!-- Item: Created By -->
+                <div class="detail-item">
+                    <label class="detail-label">Created By</label>
+                    <p class="detail-value">{{ apiDetail.createdBy }}</p>
+                </div>
+                
+                <!-- Item: Last Updated -->
+                <div class="detail-item">
+                    <label class="detail-label">Last Updated</label>
+                    <p class="detail-value">{{ apiDetail.updatedDate }}</p>
+                </div>
+            </div>
+
+            <!-- Item: Instructions (Always at the bottom) -->
+            <div class="mb-6 mt-2">
+                <label class="detail-label">Instructions</label>
+                <blockquote class="instructions-block border-l-4 border-gray-300 pl-4 py-2 text-sm text-gray-600 italic bg-gray-50 rounded-r-md">
+                    {{ apiDetail.instructions }}
+                </blockquote>
+            </div>
+
+            <!-- Actions Section (Fixed at bottom of card) -->
+            <div class="flex flex-wrap mt-auto pt-4 border-t border-gray-100">
+                <!-- Primary Action -->
+                <button 
+                    class="flex items-center justify-center px-4 py-2 bg-green-500 text-white font-medium text-sm rounded-lg hover:bg-green-600 transition duration-150 shadow-md mr-3 mb-2" (click)="openDialog(apiDetail)"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    Docs
+                </button>
+
+                <!-- Secondary Actions -->
+                <button 
+                    class="flex items-center justify-center px-4 py-2 bg-white text-gray-700 font-medium text-sm border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-150 mr-3 mb-2"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                    Mock
+                </button>
+                <button 
+                    class="flex items-center justify-center px-4 py-2 bg-white text-gray-700 font-medium text-sm border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-150 mb-2"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5a2.5 2.5 0 002.5 2.5h1a2.5 2.5 0 012.5 2.5v1.495m-2.5 6.55V18a2 2 0 00-2-2 2 2 0 01-2-2v-1a2 2 0 00-2-2H3a2 2 0 01-2-2V7.045a2 2 0 012-2h1.5a2 2 0 012 2v1m0 10.5h10V20a2 2 0 01-2 2H9a2 2 0 01-2-2v-1.955z"/></svg>
+                    Base URL
+                </button>
+            </div>
+
+          </div> <!-- End card -->
+          } @empty {
+            <p>No items to display.</p>
+         }
+      </div>
+    </div>
+
+
+
+
+
+ <p-dialog [(visible)]="docDialog" [style]="{ width: '80%', height: '80%' }" header="Documentation" [modal]="true">
+<ng-template #content>
+    <form #exampleForm="ngForm" class="flex flex-col gap-4">
+        <div class="flex flex-col gap-1">
+            <p-editor #content="ngModel" [(ngModel)]="doc.text" (onTextChange)="onTextChange($event)" [invalid]="content.invalid && (content.touched || exampleForm.submitted)" name="content" [style]="{ height: '100%' }" required />
+            @if (content.invalid && (content.touched || exampleForm.submitted)) {
+                <p-message severity="error" size="small" variant="simple">Content is required.</p-message>
+            }
+        </div>
+        
+    </form>
+</ng-template>
+ <ng-template #footer>
+                <p-button label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />
+                <p-button label="Save" icon="pi pi-check" (click)="savedoc(doc.text)" />
+            </ng-template>
+</p-dialog>

@@ -1,0 +1,21 @@
+ /* 3. Increased Text Size & 4. Label/Value Spacing */
+    .detail-label {
+        display: block;
+        font-size: 0.9rem; /* Larger label text */
+        color: #6b7280; /* Tailwind gray-500 */
+        font-weight: 600;
+        margin-bottom: 5px; /* 5px space between label and value */
+    }
+
+    .detail-value {
+        font-size: 1rem; /* Increased size for value text */
+        margin-top: 0;
+        margin-bottom: 0; 
+        word-break: break-word;
+        color: #1f2937; /* Tailwind gray-800 */
+    }
+    
+    /* Global box-shadow for the card's initial state */
+    .api-details-card {
+        box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); /* Tailwind shadow-md */
+    }
