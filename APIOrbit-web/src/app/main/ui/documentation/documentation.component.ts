@@ -6,6 +6,7 @@ import { FormControl, FormGroup, FormsModule, NgForm, ReactiveFormsModule } from
 import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { DialogModule } from 'primeng/dialog';
 
 import { EditorModule, EditorTextChangeEvent } from 'primeng/editor';
 import { MessageModule } from 'primeng/message';
@@ -13,7 +14,7 @@ import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-documentation',
-  imports: [EditorModule, FormsModule, CommonModule, MessageModule, CardModule, ButtonModule, BadgeModule, TagModule],
+  imports: [EditorModule, FormsModule, CommonModule, MessageModule, CardModule, ButtonModule, BadgeModule, TagModule, DialogModule],
   templateUrl: './documentation.component.html',
   styleUrl: './documentation.component.css'
 })
@@ -21,24 +22,7 @@ export class DocumentationComponent implements OnInit {
 
   text: any = "<p>asdasdwqeqwe&nbsp;test&nbsp;user</p>";
   apis: APIModel[] = [];
-
-    data = {
-    id: "f8a01fa3-f49a-4bf2-8e8f-69cf5b172b9d",
-    name: "asdasdqwewqe",
-    description: "asdasdqwewqe",
-    category: "finance",
-    tags: "asdasdqwewqe",
-    urlBase: "asdasdqwewqe",
-    version: 0.0,
-    status: "PENDING",
-    authType: "asdasdqwewqe",
-    documentationUrl: "www.test.come/docs",
-    mockUrl: "www.test.come/mock",
-    createdBy: "admin@example.com",
-    approvedBy: "asdasdqwewqe",
-    updatedDate: "2025-11-21T08:30:29.768+00:00",
-    instructions: "asadasdqweqwewqeqwe"
-    };
+  docDialog: boolean = false;
   
   constructor(private apiService: ApiService) { }
 
@@ -61,5 +45,18 @@ export class DocumentationComponent implements OnInit {
    console.log(text)
 // throw new Error('Method not implemented.');
 }
+
+  openDialog(api: APIModel): void {
+    this.docDialog = true;
+  }
+
+  hideDialog(): void {
+    this.docDialog = false;
+  }
+
+  savedoc(text: any) {
+    this.text = text;
+    this.hideDialog();
+  }
 
 }

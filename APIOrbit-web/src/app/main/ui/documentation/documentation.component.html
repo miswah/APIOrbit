@@ -92,7 +92,7 @@
             <div class="flex flex-wrap mt-auto pt-4 border-t border-gray-100">
                 <!-- Primary Action -->
                 <button 
-                    class="flex items-center justify-center px-4 py-2 bg-green-500 text-white font-medium text-sm rounded-lg hover:bg-green-600 transition duration-150 shadow-md mr-3 mb-2"
+                    class="flex items-center justify-center px-4 py-2 bg-green-500 text-white font-medium text-sm rounded-lg hover:bg-green-600 transition duration-150 shadow-md mr-3 mb-2" (click)="openDialog(apiDetail)"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                     Docs
@@ -115,10 +115,29 @@
 
           </div> <!-- End card -->
           } @empty {
-    <p>No items to display.</p>
-}
-
-    
+            <p>No items to display.</p>
+         }
       </div>
     </div>
 
+
+
+
+
+ <p-dialog [(visible)]="docDialog" [style]="{ width: '80%', height: '80%' }" header="Documentation" [modal]="true">
+<ng-template #content>
+    <form #exampleForm="ngForm" (ngSubmit)="onSubmit(text)" class="flex flex-col gap-4">
+        <div class="flex flex-col gap-1">
+            <p-editor #content="ngModel" [(ngModel)]="text" (onTextChange)="onTextChange($event)" [invalid]="content.invalid && (content.touched || exampleForm.submitted)" name="content" [style]="{ height: '100%' }" required />
+            @if (content.invalid && (content.touched || exampleForm.submitted)) {
+                <p-message severity="error" size="small" variant="simple">Content is required.</p-message>
+            }
+        </div>
+        
+    </form>
+</ng-template>
+ <ng-template #footer>
+                <p-button label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />
+                <p-button label="Save" icon="pi pi-check" (click)="savedoc(text)" />
+            </ng-template>
+</p-dialog>
