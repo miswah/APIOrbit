@@ -3,7 +3,7 @@ import { DOCS } from '@/main/interfaces/documentation.model';
 import { ApiService } from '@/main/service/api.service';
 import { DocumentationService } from '@/main/service/documentation.service';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { BadgeModule } from 'primeng/badge';
@@ -14,10 +14,11 @@ import { DialogModule } from 'primeng/dialog';
 import { EditorModule, EditorTextChangeEvent } from 'primeng/editor';
 import { MessageModule } from 'primeng/message';
 import { TagModule } from 'primeng/tag';
+import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
 
 @Component({
   selector: 'app-documentation',
-  imports: [EditorModule, FormsModule, CommonModule, MessageModule, CardModule, ButtonModule, BadgeModule, TagModule, DialogModule],
+  imports: [EditorModule, FormsModule, CommonModule, MessageModule, CardModule, ButtonModule, BadgeModule, TagModule, DialogModule, JsonEditorComponent],
   templateUrl: './documentation.component.html',
   styleUrl: './documentation.component.css'
 })
@@ -32,7 +33,24 @@ export class DocumentationComponent implements OnInit {
   docDialog: boolean = false;
   apiId: string = "";
   
-  constructor(private apiService: ApiService, private docsService : DocumentationService, private _toastrService: ToastrService) { }
+  public editorOptions: JsonEditorOptions;
+  public data: any;
+  // optional
+  @ViewChild(JsonEditorComponent, { static: false }) editor: JsonEditorComponent | undefined;
+
+  constructor(private apiService: ApiService, private docsService: DocumentationService, private _toastrService: ToastrService) { 
+      this.editorOptions = new JsonEditorOptions()
+   
+    // Configure modes for the editor
+    this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
+
+    this.editorOptions.mode = 'text'; 
+  
+    // Optional: Add a callback for changes (used for validation)
+    // this.editorOptions.onChange = () => this.validateJson();
+
+    this.data = {"products":[{"name":"car","product":[{"name":"honda","model":[{"id":"civic","name":"civic"},{"id":"accord","name":"accord"},{"id":"crv","name":"crv"},{"id":"pilot","name":"pilot"},{"id":"odyssey","name":"odyssey"}]}]}]}
+  }
 
   ngOnInit(): void {
     this.apiService.getAllApi().subscribe((apis: APIModel[]) => {
@@ -71,6 +89,10 @@ export class DocumentationComponent implements OnInit {
               );
               this.hideDialog();
     })
+  }
+
+  getData(event: any) {
+    console.log(event)
   }
 
 }

@@ -41,7 +41,8 @@
                         ],
                         "styles": [
                             "src/assets/styles.scss",
-                            "node_modules/ngx-toastr/toastr.css"
+                            "node_modules/ngx-toastr/toastr.css",
+                            "node_modules/jsoneditor/dist/jsoneditor.min.css"
                         ],
                         "scripts": []
                     },
@@ -95,7 +96,8 @@
                         ],
                         "styles": [
                             "src/assets/styles.scss",
-                            "node_modules/ngx-toastr/toastr.css"
+                            "node_modules/ngx-toastr/toastr.css",
+                            "node_modules/jsoneditor/dist/jsoneditor.min.css"
                         ],
                         "scripts": []
                     }

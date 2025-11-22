@@ -141,3 +141,22 @@
                 <p-button label="Save" icon="pi pi-check" (click)="savedoc(doc.text)" />
             </ng-template>
 </p-dialog>
+
+
+
+
+<div class="json-editor-container">
+  <h3>JSON Editor</h3>
+  
+  <json-editor 
+    [options]="editorOptions" 
+    [data]="data"
+    style="height: 800px; width: 100%;"
+  ></json-editor>
+
+  <div class="validation-feedback">
+    <!-- <p [innerHTML]="validationMessage"></p> -->
+  </div>
+
+  <!-- <button (click)="validateJson()">Re-Validate JSON</button> -->
+</div>
