@@ -15,10 +15,18 @@ import { EditorModule, EditorTextChangeEvent } from 'primeng/editor';
 import { MessageModule } from 'primeng/message';
 import { TagModule } from 'primeng/tag';
 import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
+import { InputTextModule } from 'primeng/inputtext';
+import { SelectModule } from 'primeng/select';
 
+
+interface HTTPMETHOD {
+  label: string;
+  value: string;
+}
+  
 @Component({
   selector: 'app-documentation',
-  imports: [EditorModule, FormsModule, CommonModule, MessageModule, CardModule, ButtonModule, BadgeModule, TagModule, DialogModule, JsonEditorComponent],
+  imports: [EditorModule, FormsModule, CommonModule, MessageModule, CardModule, ButtonModule, BadgeModule, TagModule, DialogModule, JsonEditorComponent, InputTextModule, SelectModule],
   templateUrl: './documentation.component.html',
   styleUrl: './documentation.component.css'
 })
@@ -31,24 +39,33 @@ export class DocumentationComponent implements OnInit {
   };
   apis: APIModel[] = [];
   docDialog: boolean = false;
+  mockDialog: boolean = false;
   apiId: string = "";
+  selectedApi: APIModel = {} as APIModel;
+  mockResponse: any;
   
   public editorOptions: JsonEditorOptions;
+  public responseEditorOptions: JsonEditorOptions;
   public data: any;
+  HttpMethods: HTTPMETHOD[] = [{ label: 'GET', value: 'GET' }, { label: 'POST', value: 'POST' }, { label: 'PUT', value: 'PUT' }, { label: 'DELETE', value: 'DELETE' }];
   // optional
   @ViewChild(JsonEditorComponent, { static: false }) editor: JsonEditorComponent | undefined;
 
   constructor(private apiService: ApiService, private docsService: DocumentationService, private _toastrService: ToastrService) { 
-      this.editorOptions = new JsonEditorOptions()
+    this.editorOptions = new JsonEditorOptions();
+    this.responseEditorOptions = new JsonEditorOptions();
+    this.responseEditorOptions.expandAll = true;
    
     // Configure modes for the editor
     this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
+    this.responseEditorOptions.modes = ['view'];
 
     this.editorOptions.mode = 'text'; 
+    this.responseEditorOptions.mode = 'view';
   
     // Optional: Add a callback for changes (used for validation)
     // this.editorOptions.onChange = () => this.validateJson();
-
+    this.mockResponse = { "products":[{"name":"car","product":[{"name":"honda","model":[{"id":"civic","name":"civic"},{"id":"accord","name":"accord"},{"id":"crv","name":"crv"},{"id":"pilot","name":"pilot"},{"id":"odyssey","name":"odyssey"}]}]}]}
     this.data = {"products":[{"name":"car","product":[{"name":"honda","model":[{"id":"civic","name":"civic"},{"id":"accord","name":"accord"},{"id":"crv","name":"crv"},{"id":"pilot","name":"pilot"},{"id":"odyssey","name":"odyssey"}]}]}]}
   }
 
@@ -93,6 +110,24 @@ export class DocumentationComponent implements OnInit {
 
   getData(event: any) {
     console.log(event)
+  }
+
+  openMockDialog(api: APIModel) {
+    this.mockDialog = true;
+    this.selectedApi = api;
+  }
+
+  hideMockDialog() {
+    this.mockDialog = false;
+    this.selectedApi = {} as APIModel;
+  }
+
+  savemock(api : APIModel) {
+    if (this.editor?.isValidJson()) {
+      console.log("valid");
+    } else {
+      console.log("invalid");
+    }
   }
 
 }
