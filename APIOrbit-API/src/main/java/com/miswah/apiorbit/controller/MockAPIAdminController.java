@@ -3,6 +3,8 @@ package com.miswah.apiorbit.controller;
 import com.miswah.apiorbit.dto.request.MockApiRequestDto;
 import com.miswah.apiorbit.dto.response.ApiDefinitionResponseDto;
 import com.miswah.apiorbit.service.MockApiAdminService;
+import com.miswah.apiorbit.utils.ActivityLog;
+import com.miswah.apiorbit.utils.Loggable;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +28,8 @@ public class MockAPIAdminController {
     }
 
     @PostMapping
+    @ActivityLog(action="CREATE_MOCK", module="MOCK")
+    @Loggable
     public ResponseEntity<ApiDefinitionResponseDto> createMock(@Valid @RequestBody MockApiRequestDto mockApiRequestDTO, Principal principal) {
         ApiDefinitionResponseDto mock = this.mockApiAdminService.createMock(mockApiRequestDTO, principal);
         return new ResponseEntity<>(mock, HttpStatus.CREATED);

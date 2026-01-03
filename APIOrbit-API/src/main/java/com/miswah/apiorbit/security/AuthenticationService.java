@@ -31,6 +31,23 @@ public class AuthenticationService {
         this.authenticationManager = authenticationManager;
     }
 
+    public AuthenticationResponse registerAdmin(RegisterRequest request){
+        var user = new UserModel();
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(Roles.ADMIN);
+        user.setStatus(UserStatus.PENDING);
+        userRepository.save(user);
+
+        var jwtToken = jwtService.generateToken(user);
+        AuthenticationResponse res = new AuthenticationResponse();
+        res.setToken(jwtToken);
+        res.setRole(user.getRole());
+        res.setName(user.getName());
+        return res;
+    }
+
     public String register(RegisterRequest request, Roles role) {
         var user = new UserModel();
         user.setName(request.getName());

@@ -41,18 +41,21 @@ public class ApiController {
 
     @GetMapping("/{id}")
     @ActivityLog(action="GET_API_BY_ID", module="API", target="#result?.id")
+    @Loggable
     public ResponseEntity<ApiResponseDTO> getApiDetail(@PathVariable UUID id){
         return ResponseEntity.ok(this.apiService.getApi(id));
     }
 
     @PutMapping("/approve/{id}")
     @ActivityLog(action="APPROVE_API", module="API", target="#result?.id")
+    @Loggable
     public ResponseEntity<ApiResponseDTO> approveApi(@PathVariable UUID id, Principal principal){
         return ResponseEntity.ok(this.apiService.approveApi(id, principal));
     }
 
     @PutMapping("/disable/{id}")
     @ActivityLog(action="DISABLE_API", module="API", target="#result?.id")
+    @Loggable
     public ResponseEntity<ApiResponseDTO> disableApi(@PathVariable UUID id, Principal principal){
         return ResponseEntity.ok(this.apiService.disableApi(id, principal));
     }
@@ -66,6 +69,7 @@ public class ApiController {
 
     @PutMapping("/{id}")
     @ActivityLog(action="UPDATE_API", module="API", target="#result?.id")
+    @Loggable
     public ResponseEntity<ApiResponseDTO> updateApiDetails(@Valid @RequestBody ApiRequestDTO dto, @PathVariable UUID id, Principal principal){
         return ResponseEntity.ok(this.apiService.updateApi(dto, id, principal));
     }
