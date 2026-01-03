@@ -8,6 +8,7 @@ import { appRoutes } from './app.routes';
 import { AuthGuard } from '@/auth/helpers/auth.guard';
 import { provideToastr, Toast } from 'ngx-toastr';
 import { JwtInterceptor } from '@/auth/helpers/jwt.interceptor';
+import { ErrorInterceptor } from '@/auth/helpers/error.interceptor';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -19,6 +20,7 @@ export const appConfig: ApplicationConfig = {
         provideToastr(), // Toastr providers
         AuthGuard,
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        importProvidersFrom(HttpClientModule),
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        importProvidersFrom(HttpClientModule, ErrorInterceptor),
     ]
 };

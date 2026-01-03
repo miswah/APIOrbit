@@ -6,6 +6,7 @@ import com.miswah.apiorbit.dto.response.AuthenticationResponse;
 import com.miswah.apiorbit.dto.response.UserResponseDTO;
 import com.miswah.apiorbit.enums.Roles;
 import com.miswah.apiorbit.security.AuthenticationService;
+import com.miswah.apiorbit.utils.Loggable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,14 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.register(request, Roles.EDITOR));
     }
 
+    @PostMapping("/register/admin")
+    public ResponseEntity<AuthenticationResponse> registerAdmin(
+            @RequestBody RegisterRequest request
+    ) {
+        //TODO: add user details in response
+        return ResponseEntity.ok(authenticationService.registerAdmin(request));
+    }
+
 
     @PostMapping("/register/viewer")
     public ResponseEntity<String> registerViewer(
@@ -38,6 +47,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
+    @Loggable
     public ResponseEntity<AuthenticationResponse> login(
             @RequestBody AuthenticationRequest request
     ) {

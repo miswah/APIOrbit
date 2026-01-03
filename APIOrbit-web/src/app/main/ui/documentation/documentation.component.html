@@ -100,7 +100,7 @@
 
                 <!-- Secondary Actions -->
                 <button 
-                    class="flex items-center justify-center px-4 py-2 bg-white text-gray-700 font-medium text-sm border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-150 mr-3 mb-2"
+                    class="flex items-center justify-center px-4 py-2 bg-white text-gray-700 font-medium text-sm border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-150 mr-3 mb-2" (click)="openMockDialog(apiDetail)"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
                     Mock
@@ -140,4 +140,46 @@
                 <p-button label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />
                 <p-button label="Save" icon="pi pi-check" (click)="savedoc(doc.text)" />
             </ng-template>
+</p-dialog>
+
+
+<p-dialog [(visible)]="mockDialog" [style]="{ width: '80%', height: '90%' }" header="Mock" [modal]="true">
+    <ng-template #content>
+        <div class="json-editor-container">
+            <h3>{{selectedApi.name}}</h3>
+  
+            <json-editor 
+                [options]="editorOptions" 
+                [data]="data"
+            ></json-editor>
+
+        </div>
+
+
+         <div class="grid grid-cols-2 gap-4 mt-3">
+        <div class="p-4">
+            <span class="block font-bold mb-4">Mock URL :</span>
+        </div>
+        <div class="p-4">
+            <input type="category" pInputText id="name" [(ngModel)]="selectedApi.mockUrl" required autofocus fluid />
+        </div>
+
+        <div class="p-4">
+            <span class="block font-bold mb-4">HTTP Method :</span>
+        </div>
+        <div class="p-4">
+                <p-select [(ngModel)]="selectedApi.authType" inputId="authType" [options]="HttpMethods" optionLabel="label" optionValue="label" placeholder="Select a Auth Type" fluid />
+        </div>
+        </div>
+  
+        <json-editor 
+            [options]="responseEditorOptions" 
+            [data]="mockResponse"
+        ></json-editor>
+
+    </ng-template>
+    <ng-template #footer>
+        <p-button label="Cancel" icon="pi pi-times" text (click)="hideMockDialog()" />
+        <p-button label="Save" icon="pi pi-check" (click)="savemock(data)" />
+    </ng-template>
 </p-dialog>
