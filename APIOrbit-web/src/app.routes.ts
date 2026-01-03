@@ -18,7 +18,8 @@ export const appRoutes: Routes = [
             { path: '', loadComponent: () => import('./app/main/ui/dashboard/dashboard.component').then(m => m.DashboardComponent) },
             { path: 'users', loadComponent: () => import('./app/main/ui/users/users.component').then(m => m.UsersComponent) },
             { path: 'apis', loadComponent: () => import('./app/main/ui/apis/apis.component').then(m => m.ApisComponent) },
-            { path : 'documentation', loadComponent: () => import('./app/main/ui/documentation/documentation.component').then(m => m.DocumentationComponent)}
+            { path: 'documentation', loadComponent: () => import('./app/main/ui/documentation/documentation.component').then(m => m.DocumentationComponent) },
+            { path: 'activity-logs', loadComponent: () => import("./app/main/ui/activity-logs/activity-logs.component").then(m => m.ActivityLogsComponent) }
         ]
     },
     { path: 'login', component: LoginComponent },
