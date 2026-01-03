@@ -17,6 +17,7 @@ import { TagModule } from 'primeng/tag';
 import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
+import { Toolbar } from 'primeng/toolbar';
 
 
 interface HTTPMETHOD {
@@ -26,7 +27,7 @@ interface HTTPMETHOD {
   
 @Component({
   selector: 'app-documentation',
-  imports: [EditorModule, FormsModule, CommonModule, MessageModule, CardModule, ButtonModule, BadgeModule, TagModule, DialogModule, JsonEditorComponent, InputTextModule, SelectModule],
+  imports: [EditorModule, FormsModule, CommonModule, MessageModule, CardModule, ButtonModule, BadgeModule, TagModule, DialogModule, JsonEditorComponent, InputTextModule, SelectModule, Toolbar],
   templateUrl: './documentation.component.html',
   styleUrl: './documentation.component.css'
 })
