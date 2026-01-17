@@ -34,4 +34,8 @@ export class ApiService {
   public getMockApi(id:string): Observable<MockApi> {
     return this._http.get<MockApi>(`${environment.apiUrl}/mock/${id}`);
   }
+
+  public updateMockApi(mockApi: MockApi): Observable<MockApi> {
+    return this._http.put<MockApi>(`${environment.apiUrl}/mock/${mockApi.id}`, mockApi);
+  }
 }

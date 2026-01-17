@@ -141,10 +141,15 @@ export class DocumentationComponent implements OnInit {
     })
 
     if (!isValid) {
-      console.log("invalid");
-    } else {
-      console.log("valid");
+      alert("invalid json");
     }
+    
+    mockApi.schemaRequest = JSON.stringify(mockApi.schemaRequest);
+    mockApi.schemaResponse = JSON.stringify(mockApi.schemaResponse);
+
+    this.apiService.updateMockApi(mockApi).subscribe((res) => {
+      this.hideMockDialog();
+    })
   }
 
 }
