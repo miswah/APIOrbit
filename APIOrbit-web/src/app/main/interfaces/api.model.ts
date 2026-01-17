@@ -16,3 +16,10 @@ export interface APIModel {
     updatedDate: Date;
     tagArray?: string[];
 }
+
+export interface MockApi {
+    id: string;
+    delay: number;
+    schemaRequest: string;
+    schemaResponse: string
+}
