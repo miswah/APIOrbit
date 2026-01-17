@@ -1,1 +1,53 @@
-<p>dashboard works!</p>
+<div class="grid">
+
+  <!-- KPI Cards -->
+  <div class="col-12 md:col-4" *ngIf="overview">
+    <p-card header="Total APIs">{{ overview.totalApis }}</p-card>
+  </div>
+  <div class="col-12 md:col-4">
+    <p-card header="Active APIs">{{ overview.activeApis }}</p-card>
+  </div>
+  <div class="col-12 md:col-4">
+    <p-card header="Total Versions">{{ overview.totalVersions }}</p-card>
+  </div>
+
+  <!-- Charts -->
+  <div class="col-12 md:col-6">
+    <p-card header="APIs by HTTP Method">
+      <p-chart type="pie" [data]="apisByMethod"></p-chart>
+    </p-card>
+  </div>
+
+  <div class="col-12 md:col-6">
+    <p-card header="API Status">
+      <p-chart type="doughnut" [data]="apisByStatus"></p-chart>
+    </p-card>
+  </div>
+
+  <div class="col-12 md:col-6">
+    <p-card header="Audit Activity">
+      <p-chart type="bar" [data]="auditByAction"></p-chart>
+    </p-card>
+  </div>
+
+  <!-- Table -->
+  <div class="col-12 md:col-6">
+    <p-card header="Top Versioned APIs">
+      <p-table [value]="topApis">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>API Name</th>
+            <th>Versions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-api>
+          <tr>
+            <td>{{ api.apiName }}</td>
+            <td>{{ api.versions }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+  </div>
+
+</div>
