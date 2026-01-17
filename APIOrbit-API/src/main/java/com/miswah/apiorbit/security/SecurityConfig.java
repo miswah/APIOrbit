@@ -66,6 +66,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/dashboard/**").permitAll()
                         .requestMatchers("/mock/*").permitAll()
                         .requestMatchers("/mock/**").permitAll()
+                        .requestMatchers("/api/mock/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
