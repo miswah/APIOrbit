@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { ApiCategoryByHttpMethod, DashboardOverview } from '../interfaces/dashboard.models';
+import { ApiCategoryByHttpMethod, ApiCategoryByStatus, DashboardOverview } from '../interfaces/dashboard.models';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
@@ -17,30 +17,12 @@ export class DashboardService {
   }
 
 
-    getApisByMethod(): Observable<ApiCategoryByHttpMethod[]> {
-    
-        return this._http.get<ApiCategoryByHttpMethod[]>(`${environment.apiUrl}/dashboard/by-method`)
-
-    // return of({
-    //   labels: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-    //   datasets: [
-    //     {
-    //       data: [18, 12, 6, 4, 2]
-    //     }
-    //   ]
-    // });
+  getApisByMethod(): Observable<ApiCategoryByHttpMethod[]> {
+    return this._http.get<ApiCategoryByHttpMethod[]>(`${environment.apiUrl}/dashboard/by-method`)
   }
 
-  // GET /api/dashboard/apis/by-status
-  getApisByStatus() {
-    return of({
-      labels: ['Active', 'Inactive'],
-      datasets: [
-        {
-          data: [36, 6]
-        }
-      ]
-    });
+  getApisByStatus(): Observable<ApiCategoryByStatus> {
+    return this._http.get<ApiCategoryByStatus>(`${environment.apiUrl}/dashboard/by-status`)
   }
 
   // GET /api/dashboard/apis/by-tag

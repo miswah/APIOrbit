@@ -1,4 +1,4 @@
-import { DashboardOverview, httpMethod } from '@/main/interfaces/dashboard.models';
+import { ApiCategoryByStatus, DashboardOverview, httpMethod } from '@/main/interfaces/dashboard.models';
 import { DashboardService } from '@/main/service/dashboard.service';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
@@ -40,7 +40,18 @@ export class DashboardComponent {
 
       this.apisByMethod = output;
     });
-    this.dashboardService.getApisByStatus().subscribe(res => this.apisByStatus = res);
+    this.dashboardService.getApisByStatus().subscribe((res : ApiCategoryByStatus) => {
+      const output = {
+        labels: ['Active', 'Inactive'],
+        datasets: [
+          {
+            data: [res.active, res.inactive]
+          }
+        ]
+      };
+
+      this.apisByStatus = output;
+    });
     this.dashboardService.getAuditByAction().subscribe(res => this.auditByAction = res);
     this.dashboardService.getTopVersionedApis().subscribe(res => this.topApis = res);
     this.dashboardService.getMockStatus().subscribe(res => this.mockStatus = res);

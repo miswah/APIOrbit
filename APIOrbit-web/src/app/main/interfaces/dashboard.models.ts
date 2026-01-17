@@ -12,6 +12,11 @@ export interface ApiCategoryByHttpMethod {
     count: number
 }
 
+export interface ApiCategoryByStatus {
+    active: number,
+    inactive: number
+}
+
 export enum httpMethod {
     GET, POST, PUT, DELETE
 }
