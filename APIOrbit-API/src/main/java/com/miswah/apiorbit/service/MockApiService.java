@@ -8,4 +8,6 @@ import java.util.UUID;
 @Service
 public interface MockApiService {
     public MockApiResponseDTO getMockByApiId(UUID id);
+
+    public  MockApiResponseDTO updateMockApiById(UUID id, MockApiResponseDTO dto);
 }

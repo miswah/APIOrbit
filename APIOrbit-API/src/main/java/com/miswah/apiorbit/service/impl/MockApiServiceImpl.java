@@ -30,6 +30,19 @@ public class MockApiServiceImpl implements MockApiService {
         return this.convertToDto(mockApiModel);
     }
 
+    @Override
+    public MockApiResponseDTO updateMockApiById(UUID id, MockApiResponseDTO dto) {
+        MockApiModel model = this.mockApiRepository.findById(id).orElseThrow();
+
+        model.setDelay((int) dto.delay());
+        model.setRequestBody(dto.schemaRequest());
+        model.setRequestBody(dto.schemaResponse());
+
+        this.mockApiRepository.save(model);
+
+        return this.convertToDto(model);
+    }
+
     private MockApiResponseDTO convertToDto(MockApiModel model){
         return new MockApiResponseDTO(model.getId(), model.getDelay(), model.getRequestBody(), model.getResponseBody());
     }

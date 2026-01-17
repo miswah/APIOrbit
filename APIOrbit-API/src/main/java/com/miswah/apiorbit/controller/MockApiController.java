@@ -5,10 +5,7 @@ import com.miswah.apiorbit.dto.response.MockApiResponseDTO;
 import com.miswah.apiorbit.service.MockApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -26,5 +23,10 @@ public class MockApiController {
     @GetMapping("/{id}")
     public ResponseEntity<MockApiResponseDTO> getMockByApiId(@PathVariable UUID id){
         return ResponseEntity.ok(this.mockApiService.getMockByApiId(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<MockApiResponseDTO> updateMockApiById(@PathVariable UUID id, @RequestBody MockApiResponseDTO dto){
+        return ResponseEntity.ok(this.mockApiService.updateMockApiById(id, dto));
     }
 }
