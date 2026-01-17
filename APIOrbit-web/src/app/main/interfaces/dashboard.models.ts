@@ -7,6 +7,14 @@ export interface DashboardOverview {
     pendingApis: number;
 }
 
+export interface ApiCategoryByHttpMethod {
+    httpMethod: httpMethod;
+    count: number
+}
+
+export enum httpMethod {
+    GET, POST, PUT, DELETE
+}
 export interface ChartData {
   label: string;
   value: number;

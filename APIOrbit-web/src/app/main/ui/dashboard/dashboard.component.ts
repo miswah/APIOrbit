@@ -1,4 +1,4 @@
-import { DashboardOverview } from '@/main/interfaces/dashboard.models';
+import { DashboardOverview, httpMethod } from '@/main/interfaces/dashboard.models';
 import { DashboardService } from '@/main/service/dashboard.service';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
@@ -25,7 +25,21 @@ export class DashboardComponent {
 
   ngOnInit(): void {
     this.dashboardService.getOverview().subscribe(res => this.overview = res);
-    this.dashboardService.getApisByMethod().subscribe(res => this.apisByMethod = res);
+    this.dashboardService.getApisByMethod().subscribe(res => {
+     const labels = res.map(item => item.httpMethod);
+      const data = res.map(item => item.count);
+
+      const output = {
+        labels,
+        datasets: [
+          {
+            data
+          }
+        ]
+      };
+
+      this.apisByMethod = output;
+    });
     this.dashboardService.getApisByStatus().subscribe(res => this.apisByStatus = res);
     this.dashboardService.getAuditByAction().subscribe(res => this.auditByAction = res);
     this.dashboardService.getTopVersionedApis().subscribe(res => this.topApis = res);
