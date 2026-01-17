@@ -1,4 +1,4 @@
 package com.miswah.apiorbit.dto.response;
 
-public class APIStatusResponseDTO {
+public record APIStatusResponseDTO(Long active, Long inactive) {
 }

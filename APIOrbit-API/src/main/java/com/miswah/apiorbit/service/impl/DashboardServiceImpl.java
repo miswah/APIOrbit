@@ -1,5 +1,6 @@
 package com.miswah.apiorbit.service.impl;
 
+import com.miswah.apiorbit.dto.response.APIStatusResponseDTO;
 import com.miswah.apiorbit.dto.response.ApiByMethodCountResponseDTO;
 import com.miswah.apiorbit.dto.response.SystemKPIResponseDTO;
 import com.miswah.apiorbit.enums.HttpMethods;
@@ -48,5 +49,12 @@ public class DashboardServiceImpl  implements DashboardService {
         ApiByMethodCountResponseDTO post = new ApiByMethodCountResponseDTO(HttpMethods.POST ,this.apiRepository.countByHttpMethod(HttpMethods.POST));
         ApiByMethodCountResponseDTO delete = new ApiByMethodCountResponseDTO(HttpMethods.DELETE ,this.apiRepository.countByHttpMethod(HttpMethods.DELETE));
         return List.of(get,put,post,delete);
+    }
+
+    @Override
+    public APIStatusResponseDTO getApisCountByStatus() {
+        long active = this.apiRepository.countByStatus(ResourceStatus.ACTIVE);
+        long inactive = this.apiRepository.countByStatus(ResourceStatus.PENDING) + this.apiRepository.countByStatus(ResourceStatus.DEPRECATED);
+        return new APIStatusResponseDTO(active, inactive);
     }
 }

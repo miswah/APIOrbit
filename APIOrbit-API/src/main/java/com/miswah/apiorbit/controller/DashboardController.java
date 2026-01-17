@@ -1,6 +1,7 @@
 package com.miswah.apiorbit.controller;
 
 
+import com.miswah.apiorbit.dto.response.APIStatusResponseDTO;
 import com.miswah.apiorbit.dto.response.ApiByMethodCountResponseDTO;
 import com.miswah.apiorbit.dto.response.SystemKPIResponseDTO;
 import com.miswah.apiorbit.service.DashboardService;
@@ -34,5 +35,7 @@ public class DashboardController {
     }
 
     @GetMapping("/by-status")
-    public ResponseEntity<>
+    public ResponseEntity<APIStatusResponseDTO> getApisCountByStatus(){
+        return ResponseEntity.ok(this.dashboardService.getApisCountByStatus());
+    }
 }
