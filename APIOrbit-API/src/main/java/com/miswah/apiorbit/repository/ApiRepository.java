@@ -11,4 +11,5 @@ import java.util.UUID;
 @Repository
 public interface ApiRepository extends JpaRepository<ApiModel, UUID> {
     List<ApiModel> findByStatus(ResourceStatus status);
+    long countByStatus(ResourceStatus status);
 }

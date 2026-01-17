@@ -63,6 +63,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/base/approve/*").hasRole(String.valueOf(Roles.ADMIN))
                         .requestMatchers("/api/user").hasRole(String.valueOf(Roles.ADMIN))
                         .requestMatchers("/api/user/**").hasRole(String.valueOf(Roles.ADMIN))
+                        .requestMatchers("/api/dashboard/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
