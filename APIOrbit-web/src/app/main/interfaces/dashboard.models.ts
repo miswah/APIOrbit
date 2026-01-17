@@ -2,7 +2,6 @@ export interface DashboardOverview {
   totalApis: number;
   activeApis: number;
   deprecatedApis: number;
-  totalVersions: number;
   activeMocks: number;
     totalUsers: number;
     pendingApis: number;

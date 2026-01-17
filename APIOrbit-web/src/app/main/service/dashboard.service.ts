@@ -1,25 +1,21 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { DashboardOverview } from '../interfaces/dashboard.models';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
 
+    constructor(private _http: HttpClient) { }
+
   /* ===============================
      OVERVIEW
   =============================== */
-  getOverview() {
-    return of<DashboardOverview>({
-      totalApis: 42,
-      activeApis: 36,
-      deprecatedApis: 6,
-      totalVersions: 124,
-      activeMocks: 18,
-        totalUsers: 9,
-      pendingApis: 6
-    });
+  getOverview(): Observable<DashboardOverview> {
+    return this._http.get<DashboardOverview>(`${environment.apiUrl}/dashboard/overview`)
   }
 
   /* ===============================
