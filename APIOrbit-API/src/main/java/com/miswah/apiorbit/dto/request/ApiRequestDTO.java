@@ -2,9 +2,11 @@ package com.miswah.apiorbit.dto.request;
 
 
 import com.miswah.apiorbit.enums.AuthTypeNames;
+import com.miswah.apiorbit.enums.HttpMethods;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 @Data
 @AllArgsConstructor
@@ -21,4 +23,5 @@ public class ApiRequestDTO {
     private String documentationUrl;
     private String mockUrl;
     private String instructions;
+    private HttpMethods httpMethod;
 }

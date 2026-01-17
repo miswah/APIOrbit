@@ -2,6 +2,7 @@ package com.miswah.apiorbit.model;
 
 
 import com.miswah.apiorbit.enums.AuthTypeNames;
+import com.miswah.apiorbit.enums.HttpMethods;
 import com.miswah.apiorbit.enums.ResourceStatus;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -54,4 +55,7 @@ public class ApiModel extends Auditable {
 
     @Column(name = "descriptions")
     private String descriptions;
+
+    @Column(name = "http_method")
+    private HttpMethods httpMethod;
 }
