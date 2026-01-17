@@ -1,37 +1,47 @@
-<div class="grid">
-
+<div class="grid grid-cols-4 gap-4" *ngIf="overview">
   <!-- KPI Cards -->
-  <div class="col-12 md:col-4" *ngIf="overview">
+  <div>
     <p-card header="Total APIs">{{ overview.totalApis }}</p-card>
   </div>
-  <div class="col-12 md:col-4">
+  <div>
     <p-card header="Active APIs">{{ overview.activeApis }}</p-card>
   </div>
-  <div class="col-12 md:col-4">
+    <div>
+    <p-card header="Active APIs">{{ overview.pendingApis }}</p-card>
+  </div>
+  <div>
     <p-card header="Total Versions">{{ overview.totalVersions }}</p-card>
   </div>
+</div>
+
+
+
 
   <!-- Charts -->
-  <div class="col-12 md:col-6">
-    <p-card header="APIs by HTTP Method">
+<div class="grid grid-cols-1 mt-5">
+    <div>
+    <p-card header="Audit Activity">
+      <p-chart type="bar" [data]="auditByAction" class="h-150"></p-chart>
+    </p-card>
+  </div> 
+</div>
+
+<div class="grid grid-cols-2 gap-4 mt-5">
+     <div>
+         <p-card header="APIs by HTTP Method">
       <p-chart type="pie" [data]="apisByMethod"></p-chart>
     </p-card>
-  </div>
+    </div>
 
-  <div class="col-12 md:col-6">
+<div>
     <p-card header="API Status">
-      <p-chart type="doughnut" [data]="apisByStatus"></p-chart>
+    <p-chart type="doughnut" [data]="apisByStatus"></p-chart>
     </p-card>
-  </div>
-
-  <div class="col-12 md:col-6">
-    <p-card header="Audit Activity">
-      <p-chart type="bar" [data]="auditByAction"></p-chart>
-    </p-card>
-  </div>
+</div>
+</div>
 
   <!-- Table -->
-  <div class="col-12 md:col-6">
+  <div class="col-12 md:col-6 mt-5">
     <p-card header="Top Versioned APIs">
       <p-table [value]="topApis">
         <ng-template pTemplate="header">
@@ -50,4 +60,4 @@
     </p-card>
   </div>
 
-</div>
+

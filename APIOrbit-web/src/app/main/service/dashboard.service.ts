@@ -12,7 +12,8 @@ export class DashboardService {
       deprecatedApis: 6,
       totalVersions: 124,
       activeMocks: 18,
-      totalUsers: 9
+      totalUsers: 9,
+      pendingApis: 6
     });
   }
 

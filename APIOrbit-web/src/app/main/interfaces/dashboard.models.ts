@@ -4,7 +4,8 @@ export interface DashboardOverview {
   deprecatedApis: number;
   totalVersions: number;
   activeMocks: number;
-  totalUsers: number;
+    totalUsers: number;
+    pendingApis: number;
 }
 
 export interface ChartData {
