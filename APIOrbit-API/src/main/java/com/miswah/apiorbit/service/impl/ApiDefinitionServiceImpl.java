@@ -80,7 +80,6 @@ public class ApiDefinitionServiceImpl implements ApiDefinitionService {
     private ApiDefinitionResponseDto convertToDto(ApiDefinitionModel model){
         ApiDefinitionResponseDto dto = new ApiDefinitionResponseDto();
         dto.setId(model.getId());
-        dto.setProjectId(model.getProject());
         dto.setUserEmail(model.getCreatedBy().getEmail());
         dto.setDescription(model.getDescription());
         dto.setUrlPath(model.getPath());

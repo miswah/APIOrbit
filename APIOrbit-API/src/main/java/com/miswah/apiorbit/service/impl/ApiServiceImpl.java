@@ -133,6 +133,7 @@ public class ApiServiceImpl implements ApiService {
         model.setInstructions(dto.getInstructions());
         model.setName(dto.getName());
         model.setDescriptions(dto.getDescription());
+        model.setHttpMethod(dto.getHttpMethod());
         return model;
     }
 
@@ -152,6 +153,7 @@ public class ApiServiceImpl implements ApiService {
         dto.setTags(model.getTags());
         dto.setUrlBase(model.getBaseUrl());
         dto.setAuthType(model.getAuthType());
+        dto.setHttpMethod(model.getHttpMethod());
         return dto;
     }
 

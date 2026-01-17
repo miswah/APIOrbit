@@ -1,8 +1,11 @@
 package com.miswah.apiorbit.service.impl;
 
-import com.miswah.apiorbit.dto.request.MockApiRequestDto;
-import com.miswah.apiorbit.dto.response.ApiDefinitionResponseDto;
+import com.miswah.apiorbit.dto.request.MockApiAdminRequestDTO;
+import com.miswah.apiorbit.dto.response.ApiResponseDTO;
+import com.miswah.apiorbit.dto.response.MockApiAdminResponseDTO;
+import com.miswah.apiorbit.model.ApiModel;
 import com.miswah.apiorbit.model.MockApiModel;
+import com.miswah.apiorbit.repository.ApiRepository;
 import com.miswah.apiorbit.repository.MockApiRepository;
 import com.miswah.apiorbit.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,47 +16,59 @@ import java.security.Principal;
 
 @Service
 public class MockApiAdminServiceImpl implements MockApiAdminService {
-    private final ProjectLookUpService projectLookUpService;
     private final UserLookUpService userLookUpService;
-    private final ApiDefinitionLookUpService apiDefinitionLookUpService;
     private final MockApiRepository mockApiRepository;
-    private final ApiVersionLookUpService apiVersionLookUpService;
+    private final ApiRepository apiRepository;
 
 
     @Autowired
-    public MockApiAdminServiceImpl(ProjectLookUpService projectLookUpService, UserLookUpService userLookUpService, ApiDefinitionLookUpService apiDefinitionLookUpService, MockApiRepository mockApiRepository, ApiVersionLookUpService apiVersionLookUpService){
-        this.projectLookUpService = projectLookUpService;
+    public MockApiAdminServiceImpl(UserLookUpService userLookUpService, MockApiRepository mockApiRepository, ApiRepository apiRepository){
         this.userLookUpService = userLookUpService;
-        this.apiDefinitionLookUpService = apiDefinitionLookUpService;
         this.mockApiRepository = mockApiRepository;
-        this.apiVersionLookUpService = apiVersionLookUpService;
+        this.apiRepository = apiRepository;
     }
 
     @Override
-    public ApiDefinitionResponseDto createMock(MockApiRequestDto mockApiRequestDTO, Principal principal){
+    public MockApiAdminResponseDTO createMock(MockApiAdminRequestDTO mockApiRequestDTO, Principal principal){
         MockApiModel model = convertToModel(mockApiRequestDTO, principal.getName());
         this.mockApiRepository.save(model);
         return convertToMockObject(model);
     }
 
 
-    private MockApiModel convertToModel(MockApiRequestDto mockApiRequestDTO, String email){
+    private MockApiModel convertToModel(MockApiAdminRequestDTO mockApiRequestDTO, String email){
         MockApiModel model = new MockApiModel();
-        model.setDelay(mockApiRequestDTO.getDelay());
+        model.setDelay(mockApiRequestDTO.delay());
         model.setCreatedBy(this.userLookUpService.getUserByEmail(email));
-        model.setApiVersionModel(this.apiVersionLookUpService.getById(mockApiRequestDTO.getApiVersionId()));
-        model.setApiDefinitionModel(model.getApiVersionModel().getApiDefinitionModel());
-        model.setProjectModel(model.getApiDefinitionModel().getProject());
-        model.setHttpMethods(mockApiRequestDTO.getHttpMethod());
+        model.setApiModel(this.apiRepository.findById(mockApiRequestDTO.apiId()).orElseThrow());
+        model.setRequestBody(mockApiRequestDTO.schemaRequest());
+        model.setResponseBody(mockApiRequestDTO.schemaResponse());
         return model;
     }
 
-    private ApiDefinitionResponseDto convertToMockObject(MockApiModel model){
-        ApiDefinitionResponseDto mock = new ApiDefinitionResponseDto();
-        mock.setId(model.getApiDefinitionModel().getId());
-        mock.setProjectId(model.getProjectModel());
-        mock.setUrlPath(model.getApiDefinitionModel().getPath());
-        mock.setDescription(model.getApiDefinitionModel().getDescription());
-        return mock;
+    private MockApiAdminResponseDTO convertToMockObject(MockApiModel model){
+        return new MockApiAdminResponseDTO(this.convertToDto(model.getApiModel()));
+    }
+
+
+
+    private ApiResponseDTO convertToDto(ApiModel model){
+        ApiResponseDTO dto = new ApiResponseDTO();
+        dto.setId(model.getId());
+        dto.setCategory(model.getCategory());
+        dto.setStatus(model.getStatus());
+        dto.setDocumentationUrl(model.getDocumentationUrl());
+        dto.setMockUrl(model.getMockUrl());
+        dto.setApprovedBy(model.getApprovedBy());
+        dto.setCreatedBy(model.getCreatedBy());
+        dto.setUpdatedDate(model.getUpdatedDate());
+        dto.setInstructions(model.getInstructions());
+        dto.setName(model.getName());
+        dto.setDescription(model.getDescriptions());
+        dto.setTags(model.getTags());
+        dto.setUrlBase(model.getBaseUrl());
+        dto.setAuthType(model.getAuthType());
+        dto.setHttpMethod(model.getHttpMethod());
+        return dto;
     }
 }

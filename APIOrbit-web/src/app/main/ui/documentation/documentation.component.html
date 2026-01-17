@@ -1,7 +1,9 @@
  <p-toolbar styleClass="mb-6">
-    <ng-template #start>
-    <h5 class="text-center mb-10 text-3xl font-bold text-gray-800">Available API Services</h5>
+    <ng-template #start></ng-template>
+    <ng-template #center>
+        <div class="font-semibold text-xl mb-4">Available API Services</div>
     </ng-template>
+    <ng-template #end></ng-template>
 </p-toolbar>   
    
    <div class="p-6 min-h-screen">
@@ -101,7 +103,7 @@
                     class="flex items-center justify-center px-4 py-2 bg-green-500 text-white font-medium text-sm rounded-lg hover:bg-green-600 transition duration-150 shadow-md mr-3 mb-2" (click)="openDialog(apiDetail)"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                    Docs
+                   Create Docs
                 </button>
 
                 <!-- Secondary Actions -->
@@ -109,7 +111,7 @@
                     class="flex items-center justify-center px-4 py-2 bg-white text-gray-700 font-medium text-sm border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-150 mr-3 mb-2" (click)="openMockDialog(apiDetail)"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-                    Mock
+                   Create Mock
                 </button>
                 <button 
                     class="flex items-center justify-center px-4 py-2 bg-white text-gray-700 font-medium text-sm border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-150 mb-2"
@@ -153,39 +155,33 @@
     <ng-template #content>
         <div class="json-editor-container">
             <h3>{{selectedApi.name}}</h3>
-  
+            
+
+            <p>Request Body</p>
             <json-editor 
                 [options]="editorOptions" 
-                [data]="data"
+                [data]="selectedMockApi.schemaRequest"
             ></json-editor>
 
         </div>
 
-
-         <div class="grid grid-cols-2 gap-4 mt-3">
-        <div class="p-4">
-            <span class="block font-bold mb-4">Mock URL :</span>
+        <div class="grid grid-cols-2 gap-4 mt-3">
+         <div class="p-4">
+            <span class="block font-bold mb-4">Delay Time :</span>
         </div>
         <div class="p-4">
-            <input type="category" pInputText id="name" [(ngModel)]="selectedApi.mockUrl" required autofocus fluid />
-        </div>
-
-        <div class="p-4">
-            <span class="block font-bold mb-4">HTTP Method :</span>
-        </div>
-        <div class="p-4">
-                <p-select [(ngModel)]="selectedApi.authType" inputId="authType" [options]="HttpMethods" optionLabel="label" optionValue="label" placeholder="Select a Auth Type" fluid />
+            <input type="category" pInputText id="delay" [(ngModel)]="selectedMockApi.delay" required autofocus fluid />
         </div>
         </div>
-  
+        <p>Response Body</p>
         <json-editor 
-            [options]="responseEditorOptions" 
-            [data]="mockResponse"
+            [options]="editorOptions" 
+            [data]="selectedMockApi.schemaResponse"
         ></json-editor>
 
     </ng-template>
     <ng-template #footer>
         <p-button label="Cancel" icon="pi pi-times" text (click)="hideMockDialog()" />
-        <p-button label="Save" icon="pi pi-check" (click)="savemock(data)" />
+        <p-button label="Save" icon="pi pi-check" (click)="savemock(selectedMockApi)" />
     </ng-template>
 </p-dialog>

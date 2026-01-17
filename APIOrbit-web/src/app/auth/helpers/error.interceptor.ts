@@ -30,7 +30,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         const error = err.error.message || err.statusText;
         this._toastrService.clear();
         this._toastrService.error(
-          'Session Expired please login again !!', "",  { toastClass: 'toast ngx-toastr', closeButton: true }
+          'Some error happened please try again!!', "",  { toastClass: 'toast ngx-toastr', closeButton: true }
         )
         return throwError(error);
       })

@@ -9,7 +9,8 @@ import java.util.UUID;
 
 
 @Entity
-@Table(name = "mock_api", uniqueConstraints = {@UniqueConstraint(columnNames = {"api_version_id", "http_method"})})
+//@Table(name = "mock_api", uniqueConstraints = {@UniqueConstraint(columnNames = {"api_version_id", "http_method"})})
+@Table(name = "mock_api")
 @Data
 public class MockApiModel {
 
@@ -17,25 +18,20 @@ public class MockApiModel {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "api_version_id", nullable = false)
-    private ApiVersionModel apiVersionModel;
-
-    @ManyToOne
-    @JoinColumn(name = "api_definition_id", nullable = false)
-    private ApiDefinitionModel apiDefinitionModel;
+    @OneToOne
+    @JoinColumn(name ="api_id", nullable = false)
+    private ApiModel apiModel;
 
     @ManyToOne
     @JoinColumn(name = "created_by", nullable = false)
     private UserModel createdBy;
 
-    @ManyToOne
-    @JoinColumn(name = "project_id", nullable = false)
-    private ProjectModel projectModel;
-
     @Column(name="delay", nullable = true)
     private int delay;
 
-    @Column(name ="http_method", nullable = false)
-    private HttpMethods httpMethods;
+    @Column(name = "request_body", nullable = true,columnDefinition="LONGTEXT")
+    private String requestBody;
+
+    @Column(name = "response_body", nullable = false,columnDefinition="LONGTEXT")
+    private String responseBody;
 }

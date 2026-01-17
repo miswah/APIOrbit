@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { APIModel } from '../interfaces/api.model';
+import { APIModel, MockApi } from '../interfaces/api.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -29,5 +29,13 @@ export class ApiService {
 
   public createApi(body: APIModel): Observable<APIModel> {
     return this._http.post<APIModel>(`${environment.apiUrl}/base`, body);
+  }
+
+  public getMockApi(id:string): Observable<MockApi> {
+    return this._http.get<MockApi>(`${environment.apiUrl}/mock/${id}`);
+  }
+
+  public updateMockApi(mockApi: MockApi): Observable<MockApi> {
+    return this._http.put<MockApi>(`${environment.apiUrl}/mock/${mockApi.id}`, mockApi);
   }
 }

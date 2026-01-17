@@ -1,9 +1,9 @@
-import { APIModel } from '@/main/interfaces/api.model';
+import { APIModel, MockApi } from '@/main/interfaces/api.model';
 import { DOCS } from '@/main/interfaces/documentation.model';
 import { ApiService } from '@/main/service/api.service';
 import { DocumentationService } from '@/main/service/documentation.service';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { BadgeModule } from 'primeng/badge';
@@ -44,13 +44,15 @@ export class DocumentationComponent implements OnInit {
   apiId: string = "";
   selectedApi: APIModel = {} as APIModel;
   mockResponse: any;
+  selectedMockApi: MockApi = {} as MockApi;
   
   public editorOptions: JsonEditorOptions;
   public responseEditorOptions: JsonEditorOptions;
   public data: any;
   HttpMethods: HTTPMETHOD[] = [{ label: 'GET', value: 'GET' }, { label: 'POST', value: 'POST' }, { label: 'PUT', value: 'PUT' }, { label: 'DELETE', value: 'DELETE' }];
   // optional
-  @ViewChild(JsonEditorComponent, { static: false }) editor: JsonEditorComponent | undefined;
+  // @ViewChild(JsonEditorComponent, { static: false }) editor: JsonEditorComponent | undefined;
+  @ViewChildren(JsonEditorComponent) editors!: QueryList<JsonEditorComponent>;
 
   constructor(private apiService: ApiService, private docsService: DocumentationService, private _toastrService: ToastrService) { 
     this.editorOptions = new JsonEditorOptions();
@@ -66,8 +68,8 @@ export class DocumentationComponent implements OnInit {
   
     // Optional: Add a callback for changes (used for validation)
     // this.editorOptions.onChange = () => this.validateJson();
-    this.mockResponse = { "products":[{"name":"car","product":[{"name":"honda","model":[{"id":"civic","name":"civic"},{"id":"accord","name":"accord"},{"id":"crv","name":"crv"},{"id":"pilot","name":"pilot"},{"id":"odyssey","name":"odyssey"}]}]}]}
-    this.data = {"products":[{"name":"car","product":[{"name":"honda","model":[{"id":"civic","name":"civic"},{"id":"accord","name":"accord"},{"id":"crv","name":"crv"},{"id":"pilot","name":"pilot"},{"id":"odyssey","name":"odyssey"}]}]}]}
+    // this.mockResponse = { "products":[{"name":"car","product":[{"name":"honda","model":[{"id":"civic","name":"civic"},{"id":"accord","name":"accord"},{"id":"crv","name":"crv"},{"id":"pilot","name":"pilot"},{"id":"odyssey","name":"odyssey"}]}]}]}
+    // this.data = {"products":[{"name":"car","product":[{"name":"honda","model":[{"id":"civic","name":"civic"},{"id":"accord","name":"accord"},{"id":"crv","name":"crv"},{"id":"pilot","name":"pilot"},{"id":"odyssey","name":"odyssey"}]}]}]}
   }
 
   ngOnInit(): void {
@@ -116,6 +118,13 @@ export class DocumentationComponent implements OnInit {
   openMockDialog(api: APIModel) {
     this.mockDialog = true;
     this.selectedApi = api;
+
+    this.apiService.getMockApi(api.id).subscribe((res) => {
+      this.selectedMockApi.id = res.id;
+      this.selectedMockApi.delay = res.delay;
+      this.selectedMockApi.schemaRequest = JSON.parse(res.schemaRequest);
+      this.selectedMockApi.schemaResponse = JSON.parse(res.schemaResponse);
+    })
   }
 
   hideMockDialog() {
@@ -123,12 +132,24 @@ export class DocumentationComponent implements OnInit {
     this.selectedApi = {} as APIModel;
   }
 
-  savemock(api : APIModel) {
-    if (this.editor?.isValidJson()) {
-      console.log("valid");
-    } else {
-      console.log("invalid");
+  savemock(mockApi: MockApi) {
+    let isValid = true;
+    this.editors.forEach((editor, index) => {
+      if (!editor.isValidJson()) {
+        isValid = false;
+        }
+    })
+
+    if (!isValid) {
+      alert("invalid json");
     }
+    
+    mockApi.schemaRequest = JSON.stringify(mockApi.schemaRequest);
+    mockApi.schemaResponse = JSON.stringify(mockApi.schemaResponse);
+
+    this.apiService.updateMockApi(mockApi).subscribe((res) => {
+      this.hideMockDialog();
+    })
   }
 
 }

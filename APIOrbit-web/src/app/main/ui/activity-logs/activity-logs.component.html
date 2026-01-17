@@ -1,1 +1,201 @@
-<p>activity-logs works!</p>
+ <!-- <p-toolbar styleClass="mb-6">
+            <ng-template #start>
+                <p-button label="New" icon="pi pi-plus" severity="secondary" class="mr-2" (onClick)="openNew()" />
+              
+            </ng-template>
+
+            <ng-template #end>
+                <p-button label="Export" icon="pi pi-upload" severity="secondary" (onClick)="exportCSV()" />
+            </ng-template>
+        </p-toolbar> -->
+
+<div class="card">
+            <div class="font-semibold text-xl mb-4">Activity Logs</div>
+            <p-table
+                #dt
+                [value]="activityLogs"
+                dataKey="id"
+                [rows]="10"
+                [loading]="loading"
+                [rowHover]="true"
+                [showGridlines]="true"
+                [paginator]="true"
+                [globalFilterFields]="['name', 'status']"
+                responsiveLayout="scroll"
+            >
+                <ng-template #caption>
+                    <div class="flex justify-between items-center flex-column sm:flex-row">
+                        <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt)"></button>
+                        <p-iconfield iconPosition="left" class="ml-auto">
+                            <p-inputicon>
+                                <i class="pi pi-search"></i>
+                            </p-inputicon>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search keyword" />
+                        </p-iconfield>
+                    </div>
+                </ng-template>
+                <ng-template #header>
+                    <tr>
+                        <th style="min-width: 12rem">
+                            <div class="flex justify-between items-center">
+                                User Email
+                                <p-columnFilter type="text" field="email" display="menu" placeholder="Search by email"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width: 12rem">
+                            <div class="flex justify-between items-center">
+                                User Name
+                                <p-columnFilter type="text" field="name" display="menu" placeholder="Search by name"></p-columnFilter>
+                            </div>
+                        </th>
+                       
+                        <th style="min-width: 10rem">
+                            <div class="flex justify-between items-center">
+                                Timestamp
+                                <p-columnFilter type="date" field="date" display="menu" placeholder="mm/dd/yyyy"></p-columnFilter>
+                            </div>
+                        </th>
+
+                        <th style="min-width: 12rem">
+                            <div class="flex justify-between items-center">
+                                Remote Address
+                                <p-columnFilter type="text" field="name" display="menu" placeholder="Search by address"></p-columnFilter>
+                            </div>
+                        </th>
+
+                          <th style="min-width: 12rem">
+                            <div class="flex justify-between items-center">
+                              Http Method
+                               <p-columnFilter type="text" field="name" display="menu" placeholder="Search by http Method"></p-columnFilter>
+                            </div>
+                        </th>
+
+                        <th style="min-width: 8rem">
+                            <div class="flex justify-between items-center">
+                               Path
+                                <p-columnFilter type="text" field="name" display="menu" placeholder="Search by path"></p-columnFilter>
+                            </div>
+                        </th>
+
+                            <th style="min-width: 8rem">
+                            <div class="flex justify-between items-center">
+                               Module
+                                <p-columnFilter type="text" field="name" display="menu" placeholder="Search by module"></p-columnFilter>
+                            </div>
+                        </th>
+
+                          <th style="min-width: 8rem">
+                            <div class="flex justify-between items-center">
+                               Action
+                                <p-columnFilter type="text" field="name" display="menu" placeholder="Search by module"></p-columnFilter>
+                            </div>
+                        </th>
+
+                          <th style="min-width: 8rem">
+                            <div class="flex justify-between items-center">
+                               Outcome
+                                <p-columnFilter type="text" field="name" display="menu" placeholder="Search by module"></p-columnFilter>
+                            </div>
+                        </th>
+
+                          <th style="min-width: 8rem">
+                            <div class="flex justify-between items-center">
+                               Duration ms
+                                <p-columnFilter type="number" field="name" display="menu" placeholder="Search by module"></p-columnFilter>
+                            </div>
+                        </th>
+
+                          <th style="min-width: 8rem">
+                            <div class="flex justify-between items-center">
+                               Params
+                            </div>
+                        </th>
+
+                          <th style="min-width: 8rem">
+                            <div class="flex justify-between items-center">
+                               Trace Id
+                                <p-columnFilter type="text" field="name" display="menu" placeholder="Search by module"></p-columnFilter>
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template #body let-log>
+                    <tr>
+                        <td>
+                            {{ log.userId }}
+                        </td>
+                        <td>
+                            <div class="flex items-center gap-2">
+                                <span>{{ log.userName }}</span>
+                            </div>
+                        </td>
+                     
+                        <td>
+                            {{ log.timestamp | date: 'MM/dd/yyyy h:mm:ss a' }}
+                        </td>
+                    
+                        <td>
+                            <div class="flex items-center gap-2">
+                                <span>{{ log.clientIp }}</span>
+                            </div>
+                        </td>
+
+                        <td>
+                            <p-tag [value]="log.httpMethod.toUpperCase()" [severity]="getSeverity(log.httpMethod.toUpperCase())" styleClass="dark:bg-surface-900!" />
+                        </td>
+                      
+                        <td>
+                           <div class="flex items-center gap-2">
+                                <span>{{ log.path }}</span>
+                            </div>
+                        </td>
+
+                        <td>
+                           <div class="flex items-center gap-2">
+                                <span>{{ log.moduleName }}</span>
+                            </div>
+                        </td>
+
+
+                        <td>
+                           <div class="flex items-center gap-2">
+                                <span>{{ log.actionName }}</span>
+                            </div>
+                        </td>
+
+
+                        <td>
+                            <p-tag [value]="log.outcome" [severity]="getSeverity(log.outcome.toUpperCase())" styleClass="dark:bg-surface-900!" />
+                        </td>
+
+                           <td>
+                           <div class="flex items-center gap-2">
+                                <span>{{ log.duration }} ms</span>
+                            </div>
+                        </td>
+
+                           <td>
+                           <div class="flex items-center gap-2">
+                                <span>{{ log.params }}</span>
+                            </div>
+                        </td>
+
+                           <td>
+                           <div class="flex items-center gap-2">
+                                <span>{{ log.traceId }}</span>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template #emptymessage>
+                    <tr>
+                        <td colspan="8">No logs found.</td>
+                    </tr>
+                </ng-template>
+                <ng-template #loadingbody>
+                    <tr>
+                        <td colspan="8">Loading activity logs. Please wait.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>

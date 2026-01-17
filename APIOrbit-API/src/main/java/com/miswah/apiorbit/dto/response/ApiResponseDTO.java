@@ -1,6 +1,7 @@
 package com.miswah.apiorbit.dto.response;
 
 
+import com.miswah.apiorbit.enums.HttpMethods;
 import com.miswah.apiorbit.enums.ResourceStatus;
 import com.miswah.apiorbit.enums.AuthTypeNames;
 import lombok.AllArgsConstructor;
@@ -29,4 +30,5 @@ public class ApiResponseDTO {
     private String approvedBy;
     private Date updatedDate;
     private String instructions;
+    private HttpMethods httpMethod;
 }
