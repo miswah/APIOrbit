@@ -24,7 +24,7 @@ public class ApiDefinitionResponseDto {
 
     private String description;
 
-    private ProjectModel projectId;
+    private UUID apiId;
 
     private String userEmail;
 
