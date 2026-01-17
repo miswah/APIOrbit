@@ -1,7 +1,8 @@
 package com.miswah.apiorbit.service.impl;
 
-import com.miswah.apiorbit.dto.response.ApiByMethodCountResponse;
+import com.miswah.apiorbit.dto.response.ApiByMethodCountResponseDTO;
 import com.miswah.apiorbit.dto.response.SystemKPIResponseDTO;
+import com.miswah.apiorbit.enums.HttpMethods;
 import com.miswah.apiorbit.enums.ResourceStatus;
 import com.miswah.apiorbit.repository.ApiRepository;
 import com.miswah.apiorbit.repository.MockApiRepository;
@@ -41,8 +42,11 @@ public class DashboardServiceImpl  implements DashboardService {
     }
 
     @Override
-    public List<ApiByMethodCountResponse> getApiCountByMethod() {
-//        ApiByMethodCountResponse get = new ApiByMethodCountResponse();
-        return List.of();
+    public List<ApiByMethodCountResponseDTO> getApiCountByMethod() {
+        ApiByMethodCountResponseDTO get = new ApiByMethodCountResponseDTO(HttpMethods.GET ,this.apiRepository.countByHttpMethod(HttpMethods.GET));
+        ApiByMethodCountResponseDTO put = new ApiByMethodCountResponseDTO(HttpMethods.PUT ,this.apiRepository.countByHttpMethod(HttpMethods.PUT));
+        ApiByMethodCountResponseDTO post = new ApiByMethodCountResponseDTO(HttpMethods.POST ,this.apiRepository.countByHttpMethod(HttpMethods.POST));
+        ApiByMethodCountResponseDTO delete = new ApiByMethodCountResponseDTO(HttpMethods.DELETE ,this.apiRepository.countByHttpMethod(HttpMethods.DELETE));
+        return List.of(get,put,post,delete);
     }
 }

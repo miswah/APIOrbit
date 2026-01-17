@@ -1,7 +1,7 @@
 package com.miswah.apiorbit.controller;
 
 
-import com.miswah.apiorbit.dto.response.ApiByMethodCountResponse;
+import com.miswah.apiorbit.dto.response.ApiByMethodCountResponseDTO;
 import com.miswah.apiorbit.dto.response.SystemKPIResponseDTO;
 import com.miswah.apiorbit.service.DashboardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,10 @@ public class DashboardController {
     }
 
     @GetMapping("/by-method")
-    public ResponseEntity<List<ApiByMethodCountResponse>> getApisCountsByMethod(){
-        return null;
+    public ResponseEntity<List<ApiByMethodCountResponseDTO>> getApisCountsByMethod(){
+        return ResponseEntity.ok(this.dashboardService.getApiCountByMethod());
     }
+
+    @GetMapping("/by-status")
+    public ResponseEntity<>
 }
