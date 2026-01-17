@@ -17,6 +17,8 @@ export class DashboardComponent {
   apisByMethod: any;
   apisByStatus: any;
   auditByAction: any;
+  mockStatus: any;
+  topUsers: any;
   topApis: any[] = [];
 
   constructor(private dashboardService: DashboardService) {}
@@ -27,5 +29,7 @@ export class DashboardComponent {
     this.dashboardService.getApisByStatus().subscribe(res => this.apisByStatus = res);
     this.dashboardService.getAuditByAction().subscribe(res => this.auditByAction = res);
     this.dashboardService.getTopVersionedApis().subscribe(res => this.topApis = res);
+    this.dashboardService.getMockStatus().subscribe(res => this.mockStatus = res);
+    this.dashboardService.getTopUsers().subscribe(res => this.topUsers = res);
   }
 }
